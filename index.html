@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mezcal Sacrificio — Website Directions</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'DM Sans', sans-serif; background: #111; color: #F5F0E8; overflow: hidden; height: 100vh; }
+
+/* Toggle bar */
+.toggle-bar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
+  display: flex; align-items: center; justify-content: center; gap: 20px;
+  padding: 12px 24px;
+  background: rgba(10,10,10,0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(201,168,76,0.2);
+}
+.toggle-bar .brand {
+  position: absolute; left: 24px;
+  font: 700 13px/1 'DM Sans', sans-serif;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: rgba(245,240,232,0.4);
+}
+.toggle-bar .feedback-note {
+  position: absolute; right: 24px;
+  font: 400 11px/1 'DM Sans', sans-serif;
+  color: rgba(245,240,232,0.3);
+}
+
+/* Toggle switch */
+.toggle-group {
+  display: flex; align-items: center; gap: 12px;
+}
+.toggle-label {
+  font: 500 12px/1 'DM Sans', sans-serif;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  cursor: pointer; padding: 8px 16px; border-radius: 6px;
+  transition: all 0.3s ease;
+}
+.toggle-label.active-a {
+  background: #F5F0E8; color: #1A1A1A;
+}
+.toggle-label.active-b {
+  background: #C9A84C; color: #0A0A0A;
+}
+.toggle-label:not(.active-a):not(.active-b) {
+  color: rgba(245,240,232,0.5);
+}
+.toggle-label:hover:not(.active-a):not(.active-b) {
+  color: #F5F0E8;
+}
+
+.toggle-switch {
+  position: relative; width: 52px; height: 28px;
+  background: rgba(245,240,232,0.15); border-radius: 14px;
+  cursor: pointer; transition: background 0.3s;
+}
+.toggle-switch.dark { background: rgba(201,168,76,0.3); }
+.toggle-knob {
+  position: absolute; top: 3px; left: 3px;
+  width: 22px; height: 22px; border-radius: 50%;
+  background: #F5F0E8; transition: all 0.3s ease;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+}
+.toggle-switch.dark .toggle-knob {
+  left: 27px; background: #C9A84C;
+}
+
+/* Keyboard hint */
+.key-hint {
+  font: 400 10px/1 'DM Sans', sans-serif;
+  color: rgba(245,240,232,0.2);
+  padding: 3px 8px; border: 1px solid rgba(245,240,232,0.1);
+  border-radius: 4px; margin-left: 8px;
+}
+
+/* Iframe */
+.frame-container {
+  position: fixed; top: 52px; left: 0; right: 0; bottom: 0;
+}
+.frame-container iframe {
+  width: 100%; height: 100%; border: none;
+  transition: opacity 0.4s ease;
+}
+.frame-container iframe.hidden {
+  position: absolute; opacity: 0; pointer-events: none;
+}
+</style>
+</head>
+<body>
+
+<div class="toggle-bar">
+  <span class="brand">Sacrificio</span>
+
+  <div class="toggle-group">
+    <span class="toggle-label active-a" id="label-a" onclick="switchTo('a')">A · Heritage</span>
+    <div class="toggle-switch" id="toggle" onclick="toggleVersion()">
+      <div class="toggle-knob"></div>
+    </div>
+    <span class="toggle-label" id="label-b" onclick="switchTo('b')">B · Dark Heritage</span>
+    <span class="key-hint">Press T to toggle</span>
+  </div>
+
+  <span class="feedback-note">Share feedback with Pablo</span>
+</div>
+
+<div class="frame-container">
+  <iframe id="frame-a" src="direction-a.html"></iframe>
+  <iframe id="frame-b" src="direction-b.html" class="hidden"></iframe>
+</div>
+
+<script>
+let current = 'a';
+
+function switchTo(version) {
+  current = version;
+  const frameA = document.getElementById('frame-a');
+  const frameB = document.getElementById('frame-b');
+  const labelA = document.getElementById('label-a');
+  const labelB = document.getElementById('label-b');
+  const toggle = document.getElementById('toggle');
+
+  if (version === 'a') {
+    frameA.classList.remove('hidden');
+    frameB.classList.add('hidden');
+    labelA.classList.add('active-a');
+    labelA.classList.remove('active-b');
+    labelB.classList.remove('active-a', 'active-b');
+    toggle.classList.remove('dark');
+  } else {
+    frameB.classList.remove('hidden');
+    frameA.classList.add('hidden');
+    labelB.classList.add('active-b');
+    labelB.classList.remove('active-a');
+    labelA.classList.remove('active-a', 'active-b');
+    toggle.classList.add('dark');
+  }
+}
+
+function toggleVersion() {
+  switchTo(current === 'a' ? 'b' : 'a');
+}
+
+// Keyboard shortcut
+document.addEventListener('keydown', (e) => {
+  if (e.key === 't' || e.key === 'T') {
+    if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+      toggleVersion();
+    }
+  }
+});
+</script>
+</body>
+</html>
