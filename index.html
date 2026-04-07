@@ -24,10 +24,23 @@ body { font-family: 'DM Sans', sans-serif; background: #111; color: #F5F0E8; ove
   letter-spacing: 0.15em; text-transform: uppercase;
   color: rgba(245,240,232,0.4);
 }
-.toggle-bar .feedback-note {
+.lang-toggle {
   position: absolute; right: 24px;
-  font: 400 11px/1 'DM Sans', sans-serif;
-  color: rgba(245,240,232,0.3);
+  display: flex; gap: 8px; align-items: center;
+}
+.lang-btn {
+  font: 700 12px/1 'DM Sans', sans-serif;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.2s;
+  color: rgba(245,240,232,0.35);
+}
+.lang-btn.active {
+  color: #F5F0E8;
+}
+.lang-divider {
+  color: rgba(245,240,232,0.2);
+  font: 400 12px/1 'DM Sans', sans-serif;
 }
 
 /* Toggle switch */
@@ -104,7 +117,11 @@ body { font-family: 'DM Sans', sans-serif; background: #111; color: #F5F0E8; ove
     <span class="key-hint">Press T to toggle</span>
   </div>
 
-  <span class="feedback-note">Share feedback with Pablo</span>
+  <div class="lang-toggle">
+    <span class="lang-btn active" id="lang-en" onclick="setLang('en')">EN</span>
+    <span class="lang-divider">|</span>
+    <span class="lang-btn" id="lang-es" onclick="setLang('es')">ES</span>
+  </div>
 </div>
 
 <div class="frame-container">
@@ -143,6 +160,24 @@ function switchTo(version) {
 function toggleVersion() {
   switchTo(current === 'a' ? 'b' : 'a');
 }
+
+// Language toggle
+function setLang(lang) {
+  document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+  document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+  localStorage.setItem('sacrificio-lang', lang);
+  document.getElementById('frame-a').contentWindow.postMessage({type: 'setLang', lang: lang}, '*');
+  document.getElementById('frame-b').contentWindow.postMessage({type: 'setLang', lang: lang}, '*');
+}
+
+// Restore saved language
+(function() {
+  const saved = localStorage.getItem('sacrificio-lang');
+  if (saved === 'es') {
+    // Defer until iframes are loaded
+    window.addEventListener('load', () => setLang('es'));
+  }
+})();
 
 // Keyboard shortcut
 document.addEventListener('keydown', (e) => {
