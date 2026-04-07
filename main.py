@@ -2,9 +2,17 @@ import http.server
 import socketserver
 import os
 
-PORT = int(os.environ.get("PORT", 3000))
+PORT = int(os.environ.get("PORT", 5000))
 
-Handler = http.server.SimpleHTTPRequestHandler
-httpd = socketserver.TCPServer(("0.0.0.0", PORT), Handler)
-print(f"Serving on http://0.0.0.0:{PORT}")
-httpd.serve_forever()
+class Handler(http.server.SimpleHTTPRequestHandler):
+    def do_GET(self):
+        if self.path == '/' or self.path == '/index.html':
+            self.path = '/direction-b.html'
+        return super().do_GET()
+
+    def log_message(self, format, *args):
+        pass
+
+with socketserver.TCPServer(("0.0.0.0", PORT), Handler) as httpd:
+    print(f"Serving on port {PORT}", flush=True)
+    httpd.serve_forever()
