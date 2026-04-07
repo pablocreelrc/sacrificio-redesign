@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A&ntilde;ejo — Mezcal Sacrificio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap" rel="stylesheet">
+<style>
+/* ========== RESET & BASE ========== */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  color: #1A1A1A;
+  background: #F5F0E8;
+  overflow-x: hidden;
+}
+img { max-width: 100%; display: block; }
+a { text-decoration: none; color: inherit; }
+button { cursor: pointer; border: none; background: none; font-family: inherit; }
+
+/* ========== VARIABLES ========== */
+:root {
+  --cream: #F5F0E8;
+  --black: #1A1A1A;
+  --gold: #C9A84C;
+  --orange: #D4742C;
+  --red: #C41E2A;
+  --navy: #2B3A67;
+  --muted: #6B6560;
+  --sku-color: #2B3A67;
+  --ff-display: 'Playfair Display', serif;
+  --ff-body: 'DM Sans', sans-serif;
+  --ff-accent: 'Cormorant Garamond', serif;
+}
+
+/* ========== SCROLL REVEAL ========== */
+.reveal { opacity: 1; transform: translateY(0); }
+.js-ready .reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.js-ready .reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ========== NAV ========== */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 48px;
+  background: rgba(245,240,232,0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(26,26,26,0.08);
+}
+.nav-logo img {
+  height: 48px;
+  width: auto;
+}
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 36px;
+}
+.nav-links a {
+  font-family: var(--ff-body);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--black);
+  transition: color 0.3s ease;
+}
+.nav-links a:hover { color: var(--gold); }
+.nav-cta {
+  display: inline-block;
+  font-family: var(--ff-body);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--cream);
+  background: var(--gold);
+  padding: 10px 24px;
+  border-radius: 2px;
+  transition: background 0.3s ease;
+}
+.nav-cta:hover { background: var(--orange); }
+.nav-mobile-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+}
+.nav-mobile-toggle span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--black);
+  transition: all 0.3s ease;
+}
+
+/* ========== BACK LINK ========== */
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--ff-body);
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.8);
+  padding: 100px 48px 0;
+  transition: color 0.3s ease;
+}
+.back-link:hover { color: #fff; }
+
+/* ========== HERO ========== */
+.product-hero {
+  background: var(--sku-color);
+  padding: 0 48px 80px;
+  text-align: center;
+  position: relative;
+}
+.product-hero-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  padding-top: 20px;
+}
+.product-hero-overline {
+  font-family: var(--ff-body);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 12px;
+}
+.product-hero-title {
+  font-family: var(--ff-display);
+  font-size: 64px;
+  font-weight: 400;
+  color: #fff;
+  margin-bottom: 32px;
+  line-height: 1.1;
+}
+.product-hero-bottle {
+  height: 400px;
+  object-fit: contain;
+  margin: 0 auto;
+  filter: drop-shadow(0 20px 60px rgba(0,0,0,0.3));
+}
+
+/* ========== PRODUCT DETAILS ========== */
+.product-details {
+  background: var(--cream);
+  padding: 80px 48px;
+}
+.product-details-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  max-width: 1100px;
+  margin: 0 auto;
+  align-items: center;
+}
+.product-details-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.product-details-image img {
+  height: 500px;
+  object-fit: contain;
+  filter: drop-shadow(0 12px 32px rgba(0,0,0,0.15));
+}
+.product-info-name {
+  font-family: var(--ff-display);
+  font-size: 48px;
+  font-weight: 400;
+  color: var(--black);
+  margin-bottom: 12px;
+}
+.product-info-specs {
+  font-family: var(--ff-body);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 28px;
+}
+.product-info-section-title {
+  font-family: var(--ff-display);
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--black);
+  margin-bottom: 8px;
+  margin-top: 24px;
+}
+.product-info-text {
+  font-family: var(--ff-body);
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+.product-info-review {
+  margin-top: 24px;
+  padding: 20px 24px;
+  background: rgba(201,168,76,0.08);
+  border-left: 3px solid var(--gold);
+  border-radius: 0 8px 8px 0;
+}
+.product-info-review-text {
+  font-family: var(--ff-accent);
+  font-size: 18px;
+  font-style: italic;
+  color: var(--black);
+  margin-bottom: 4px;
+}
+.product-info-review-source {
+  font-family: var(--ff-body);
+  font-size: 13px;
+  color: var(--muted);
+}
+.product-info-rating {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  font-family: var(--ff-body);
+  font-size: 14px;
+  color: var(--muted);
+}
+.product-info-rating .stars {
+  color: var(--gold);
+  font-size: 16px;
+  letter-spacing: 2px;
+}
+.awards-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 20px;
+}
+.award-badge {
+  display: inline-block;
+  font-family: var(--ff-body);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--gold);
+  background: rgba(201,168,76,0.1);
+  border: 1px solid rgba(201,168,76,0.3);
+  padding: 6px 14px;
+  border-radius: 2px;
+}
+.product-cta-group {
+  display: flex;
+  gap: 16px;
+  margin-top: 32px;
+  flex-wrap: wrap;
+}
+.btn-gold {
+  display: inline-block;
+  font-family: var(--ff-body);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--cream);
+  background: var(--gold);
+  padding: 14px 32px;
+  border-radius: 2px;
+  transition: background 0.3s ease;
+}
+.btn-gold:hover { background: var(--orange); }
+.btn-outline {
+  display: inline-block;
+  font-family: var(--ff-body);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--black);
+  background: transparent;
+  border: 1.5px solid var(--black);
+  padding: 14px 32px;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+.btn-outline:hover { background: var(--black); color: var(--cream); }
+
+/* ========== FLAVOR PROFILE ========== */
+.flavor-profile {
+  background: #EDE8DF;
+  padding: 64px 48px;
+  text-align: center;
+}
+.flavor-profile h3 {
+  font-family: var(--ff-display);
+  font-size: 32px;
+  font-weight: 400;
+  color: var(--black);
+  margin-bottom: 32px;
+}
+.flavor-pills {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  max-width: 700px;
+  margin: 0 auto;
+}
+.flavor-pill {
+  font-family: var(--ff-body);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--navy);
+  background: rgba(43,58,103,0.08);
+  border: 1px solid rgba(43,58,103,0.2);
+  padding: 10px 24px;
+  border-radius: 100px;
+}
+
+/* ========== SUGGESTED COCKTAILS ========== */
+.suggested-cocktails {
+  background: var(--cream);
+  padding: 64px 48px;
+}
+.suggested-cocktails h3 {
+  font-family: var(--ff-display);
+  font-size: 32px;
+  font-weight: 400;
+  color: var(--black);
+  text-align: center;
+  margin-bottom: 40px;
+}
+.cocktails-suggestions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+.cocktail-suggestion {
+  background: #fff;
+  border-radius: 12px;
+  padding: 32px;
+  transition: transform 0.3s ease;
+}
+.cocktail-suggestion:hover { transform: translateY(-4px); }
+.cocktail-suggestion-name {
+  font-family: var(--ff-display);
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--black);
+  margin-bottom: 8px;
+}
+.cocktail-suggestion-desc {
+  font-family: var(--ff-body);
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.cocktail-suggestion-link {
+  display: inline-block;
+  margin-top: 12px;
+  font-family: var(--ff-body);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gold);
+  transition: color 0.3s ease;
+}
+.cocktail-suggestion-link:hover { color: var(--orange); }
+
+/* ========== FOOTER ========== */
+.footer {
+  background: var(--black);
+  padding: 64px 48px 32px;
+  border-top: 1px solid rgba(201,168,76,0.3);
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  gap: 48px;
+  max-width: 1120px;
+  margin: 0 auto 48px;
+}
+.footer-brand-name {
+  font-family: var(--ff-display);
+  font-size: 24px;
+  font-weight: 400;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--cream);
+  margin-bottom: 12px;
+}
+.footer-brand-tagline {
+  font-family: var(--ff-accent);
+  font-size: 16px;
+  font-style: italic;
+  color: rgba(245,240,232,0.5);
+  line-height: 1.5;
+}
+.footer-col-title {
+  font-family: var(--ff-body);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 20px;
+}
+.footer-col ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.footer-col ul a {
+  font-family: var(--ff-body);
+  font-size: 14px;
+  color: rgba(245,240,232,0.6);
+  transition: color 0.3s ease;
+}
+.footer-col ul a:hover { color: var(--cream); }
+.footer-separator {
+  height: 1px;
+  background: rgba(245,240,232,0.08);
+  max-width: 1120px;
+  margin: 0 auto 24px;
+}
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1120px;
+  margin: 0 auto;
+}
+.footer-copyright {
+  font-family: var(--ff-body);
+  font-size: 13px;
+  color: rgba(245,240,232,0.35);
+}
+.footer-legal {
+  display: flex;
+  gap: 24px;
+}
+.footer-legal a {
+  font-family: var(--ff-body);
+  font-size: 13px;
+  color: rgba(245,240,232,0.35);
+  transition: color 0.3s ease;
+}
+.footer-legal a:hover { color: rgba(245,240,232,0.7); }
+.footer-responsible {
+  text-align: center;
+  font-family: var(--ff-body);
+  font-size: 13px;
+  color: rgba(245,240,232,0.4);
+  max-width: 1120px;
+  margin: 0 auto 20px;
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 1024px) {
+  .product-details-inner { grid-template-columns: 1fr; }
+  .product-details-image { order: -1; }
+  .product-details-image img { height: 400px; }
+  .product-hero-title { font-size: 48px; }
+}
+
+@media (max-width: 768px) {
+  .nav { padding: 14px 24px; }
+  .nav-links { display: none; }
+  .nav-cta { display: none; }
+  .nav-mobile-toggle { display: flex; }
+
+  .back-link { padding: 90px 24px 0; font-size: 13px; }
+  .product-hero { padding: 0 24px 60px; }
+  .product-hero-title { font-size: 40px; }
+  .product-hero-bottle { height: 280px; }
+
+  .product-details { padding: 48px 24px; }
+  .product-details-inner { gap: 32px; }
+  .product-details-image img { height: 320px; }
+  .product-info-name { font-size: 36px; }
+
+  .flavor-profile { padding: 48px 24px; }
+  .flavor-profile h3 { font-size: 26px; }
+
+  .suggested-cocktails { padding: 48px 24px; }
+  .suggested-cocktails h3 { font-size: 26px; }
+  .cocktails-suggestions { grid-template-columns: 1fr; }
+
+  .footer { padding: 48px 24px 24px; }
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+  .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+  .footer-legal { gap: 16px; }
+}
+
+@media (max-width: 480px) {
+  .footer-grid { grid-template-columns: 1fr; }
+  .product-cta-group { flex-direction: column; }
+  .product-cta-group a { text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav class="nav" id="nav">
+  <a href="direction-a.html" class="nav-logo">
+    <img src="assets/logo.svg" alt="Sacrificio">
+  </a>
+  <ul class="nav-links">
+    <li><a href="direction-a.html#story" data-en="Our Story" data-es="Nuestra Historia">Our Story</a></li>
+    <li><a href="direction-a.html#products" data-en="Products" data-es="Productos">Products</a></li>
+    <li><a href="direction-a.html#process" data-en="Process" data-es="Proceso">Process</a></li>
+    <li><a href="direction-a.html#cocktails" data-en="Cocktails" data-es="C&#243;cteles">Cocktails</a></li>
+    <li><a href="direction-a.html#find-us" data-en="Find Us" data-es="Encu&#233;ntranos">Find Us</a></li>
+  </ul>
+  <a href="#" class="nav-cta" data-en="Buy Now" data-es="Comprar">Buy Now</a>
+  <div class="nav-mobile-toggle" id="mobileToggle" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+
+<!-- Product Details -->
+<section class="product-details">
+  <div class="product-details-inner">
+    <div class="product-details-image reveal">
+      <img src="assets/anejo.png" alt="Sacrificio A&ntilde;ejo">
+    </div>
+    <div class="product-info reveal">
+      <h2 class="product-info-name">A&ntilde;ejo</h2>
+      <div class="product-info-specs">Espadin + Barril &middot; 45% ABV &middot; 750ml &middot; <span data-en="1 year in French oak" data-es="1 a&ntilde;o en roble franc&eacute;s">1 year in French oak</span></div>
+
+      <h4 class="product-info-section-title" data-en="Tasting Notes" data-es="Notas de Cata">Tasting Notes</h4>
+      <p class="product-info-text" data-en="Full, cooked agave opens to layers of chocolate, brown sugar, and cocoa. The finish is smoky and drying, with a warmth that lingers. A year in French oak transforms this into something extraordinary." data-es="Agave cocido intenso se abre a capas de chocolate, piloncillo y cacao. El final es ahumado y seco, con una calidez que perdura. Un a&ntilde;o en roble franc&eacute;s transforma esto en algo extraordinario.">Full, cooked agave opens to layers of chocolate, brown sugar, and cocoa. The finish is smoky and drying, with a warmth that lingers. A year in French oak transforms this into something extraordinary.</p>
+
+      <h4 class="product-info-section-title" data-en="How it's made" data-es="C&oacute;mo se elabora">How it's made</h4>
+      <p class="product-info-text" data-en="Our only blend &mdash; Espadin for brightness and Barril for depth. After double distillation, the liquid rests for a full year in French oak barrels, developing the rich chocolate and brown sugar notes that define this expression." data-es="Nuestra &uacute;nica mezcla &mdash; Espadin para luminosidad y Barril para profundidad. Despu&eacute;s de la doble destilaci&oacute;n, el l&iacute;quido reposa un a&ntilde;o completo en barricas de roble franc&eacute;s, desarrollando las ricas notas de chocolate y piloncillo que definen esta expresi&oacute;n.">Our only blend &mdash; Espadin for brightness and Barril for depth. After double distillation, the liquid rests for a full year in French oak barrels, developing the rich chocolate and brown sugar notes that define this expression.</p>
+
+      <div class="awards-list">
+        <span class="award-badge">Gold Medal SFWSC 2020</span>
+        <span class="award-badge">Double Gold SFWSC 2024</span>
+        <span class="award-badge">96 Points SFWSC 2024</span>
+      </div>
+
+      <div class="product-info-review">
+        <div class="product-info-review-text">&ldquo;Brown sugar and cocoa leading into a smoky, drying finish&rdquo;</div>
+        <div class="product-info-review-source">&mdash; TWM Customer</div>
+      </div>
+
+      <div class="product-info-rating">
+        <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9734;</span>
+        <span>4.4/5 (39 <span data-en="reviews" data-es="rese&ntilde;as">reviews</span>)</span>
+      </div>
+
+      <div class="product-cta-group">
+        <a href="#" class="btn-gold" data-en="Buy at Total Wine" data-es="Comprar en Total Wine">Buy at Total Wine</a>
+        <a href="#" class="btn-outline" data-en="Find Near You" data-es="Encuentra Cerca de Ti">Find Near You</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Suggested Cocktails -->
+<section class="suggested-cocktails reveal">
+  <h3 data-en="Suggested Cocktails" data-es="C&oacute;cteles Sugeridos">Suggested Cocktails</h3>
+  <div class="cocktails-suggestions">
+    <div class="cocktail-suggestion">
+      <div class="cocktail-suggestion-name">Mezcal Old Fashioned</div>
+      <p class="cocktail-suggestion-desc" data-en="The A&ntilde;ejo's chocolate and brown sugar notes make it the definitive base for an Old Fashioned. Mole bitters, a barspoon of agave nectar, and an orange peel express the full depth of this expression." data-es="Las notas de chocolate y piloncillo del A&ntilde;ejo lo hacen la base definitiva para un Old Fashioned. Amargos de mole, una cucharada de n&eacute;ctar de agave y una c&aacute;scara de naranja expresan toda la profundidad de esta expresi&oacute;n.">The A&ntilde;ejo's chocolate and brown sugar notes make it the definitive base for an Old Fashioned. Mole bitters, a barspoon of agave nectar, and an orange peel express the full depth of this expression.</p>
+      <a href="direction-a.html#cocktails" class="cocktail-suggestion-link" data-en="View Recipe &rarr;" data-es="Ver Receta &rarr;">View Recipe &rarr;</a>
+    </div>
+    <div class="cocktail-suggestion">
+      <div class="cocktail-suggestion-name">Smoked Sour</div>
+      <p class="cocktail-suggestion-desc" data-en="A bold twist on the whiskey sour. A&ntilde;ejo's smoky warmth meets fresh lemon juice, egg white foam, and a float of mole bitters. Rich, velvety, and complex." data-es="Una audaz versi&oacute;n del whiskey sour. La calidez ahumada del A&ntilde;ejo se encuentra con jugo de lim&oacute;n fresco, espuma de clara de huevo y un toque de amargos de mole. Rico, aterciopelado y complejo.">A bold twist on the whiskey sour. A&ntilde;ejo's smoky warmth meets fresh lemon juice, egg white foam, and a float of mole bitters. Rich, velvety, and complex.</p>
+      <a href="direction-a.html#cocktails" class="cocktail-suggestion-link" data-en="View Recipe &rarr;" data-es="Ver Receta &rarr;">View Recipe &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="footer-brand-name">Sacrificio</div>
+      <p class="footer-brand-tagline" data-en="Artisanal mezcal from Tlacolula, Oaxaca. Crafted with patience, served with pride." data-es="Mezcal artesanal de Tlacolula, Oaxaca. Elaborado con paciencia, servido con orgullo.">Artisanal mezcal from Tlacolula, Oaxaca. Crafted with patience, served with pride.</p>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title" data-en="Explore" data-es="Explorar">Explore</div>
+      <ul>
+        <li><a href="direction-a.html#story" data-en="Our Story" data-es="Nuestra Historia">Our Story</a></li>
+        <li><a href="direction-a.html#products" data-en="Products" data-es="Productos">Products</a></li>
+        <li><a href="direction-a.html#process" data-en="Process" data-es="Proceso">Process</a></li>
+        <li><a href="direction-a.html#cocktails" data-en="Cocktails" data-es="C&#243;cteles">Cocktails</a></li>
+        <li><a href="#">Awards</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title" data-en="Find Us" data-es="Encu&#233;ntranos">Find Us</div>
+      <ul>
+        <li><a href="#">Total Wine &amp; More</a></li>
+        <li><a href="#">Drizly</a></li>
+        <li><a href="#" data-en="Store Locator" data-es="Buscar Tienda">Store Locator</a></li>
+        <li><a href="#" data-en="On-Premise" data-es="Bares y Restaurantes">On-Premise</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title" data-en="Connect" data-es="Conectar">Connect</div>
+      <ul>
+        <li><a href="#">Instagram</a></li>
+        <li><a href="#">Pinterest</a></li>
+        <li><a href="#" data-en="Contact" data-es="Contacto">Contact</a></li>
+        <li><a href="#" data-en="Press" data-es="Prensa">Press</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-separator"></div>
+  <div class="footer-responsible" data-en="Please drink responsibly. Must be 21+." data-es="Bebe con responsabilidad. Debes ser mayor de 21 a&ntilde;os.">Please drink responsibly. Must be 21+.</div>
+  <div class="footer-bottom">
+    <div class="footer-copyright" data-en="&copy; 2026 Destileria Sacrificio S.A. de C.V. All rights reserved." data-es="&copy; 2026 Destileria Sacrificio S.A. de C.V. Todos los derechos reservados.">&copy; 2026 Destileria Sacrificio S.A. de C.V. All rights reserved.</div>
+    <div class="footer-legal">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Use</a>
+      <a href="#">Accessibility</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ========== JS-READY FLAG ========== */
+document.documentElement.classList.add('js-ready');
+
+/* ========== SCROLL REVEAL ========== */
+var reveals = document.querySelectorAll('.reveal');
+var observer = new IntersectionObserver(function(entries) {
+  entries.forEach(function(entry) {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+reveals.forEach(function(el) { observer.observe(el); });
+
+/* ========== MOBILE TOGGLE ========== */
+var mobileToggle = document.getElementById('mobileToggle');
+mobileToggle.addEventListener('click', function() {
+  mobileToggle.classList.toggle('active');
+});
+
+/* ========== i18n LANGUAGE SWITCH ========== */
+function applyLang(lang) {
+  document.querySelectorAll('[data-en][data-es]').forEach(function(el) {
+    el.textContent = el.dataset[lang];
+  });
+}
+
+window.addEventListener('message', function(e) {
+  if (e.data && e.data.type === 'setLang') {
+    applyLang(e.data.lang);
+  }
+});
+</script>
+</body>
+</html>

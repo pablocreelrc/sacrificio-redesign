@@ -10,8 +10,8 @@
 <style>
 /* ========== RESET & BASE ========== */
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; scroll-padding-top: 80px; }
-section[id] { scroll-margin-top: 80px; }
+html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; scroll-padding-top: 0; scroll-snap-type: y proximity; }
+section[id] { scroll-margin-top: 0; }
 body {
   font-family: 'DM Sans', sans-serif;
   color: #1A1A1A;
@@ -36,13 +36,23 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   --ff-accent: 'Cormorant Garamond', serif;
 }
 
-/* ========== SCROLL REVEAL ========== */
-.reveal {
-  opacity: 0;
-  transform: translateY(32px);
-  transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+/* ========== SCROLL SNAP ========== */
+.snap-section {
+  scroll-snap-align: start;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
-.reveal.visible {
+
+/* ========== SCROLL REVEAL (graceful degradation) ========== */
+.reveal { opacity: 1; transform: translateY(0); }
+.js-ready .reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.js-ready .reveal.visible {
   opacity: 1;
   transform: translateY(0);
 }
@@ -79,9 +89,29 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   transition: background 0.4s ease, padding 0.3s ease;
 }
 .nav.scrolled {
-  background: rgba(26,26,26,0.92);
+  background: rgba(245,240,232,0.95);
   backdrop-filter: blur(12px);
   padding: 14px 48px;
+  border-bottom: 1px solid rgba(26,26,26,0.08);
+}
+.nav.scrolled .nav-link,
+.nav.scrolled .nav-links a {
+  color: #1A1A1A;
+}
+.nav.scrolled .nav-links a:hover {
+  color: #C9A84C;
+}
+.nav.scrolled .nav-logo img {
+  filter: brightness(1);
+}
+.nav.scrolled .nav-cta,
+.nav.scrolled .btn-ghost-nav {
+  color: #1A1A1A;
+  border-color: #1A1A1A;
+}
+.nav.scrolled .nav-cta:hover {
+  background: #1A1A1A;
+  color: #F5F0E8;
 }
 .nav-logo img {
   height: 48px;
@@ -174,6 +204,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   color: var(--cream);
   line-height: 1.1;
   margin-bottom: 20px;
+  text-shadow: 0 2px 20px rgba(0,0,0,0.5);
 }
 .hero-subtitle {
   font-family: var(--ff-body);
@@ -183,6 +214,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   max-width: 520px;
   margin: 0 auto 40px;
   line-height: 1.6;
+  text-shadow: 0 2px 20px rgba(0,0,0,0.5);
 }
 .hero-buttons {
   display: flex;
@@ -197,7 +229,9 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   letter-spacing: 1px;
   text-transform: uppercase;
   padding: 14px 32px;
-  border: 1px solid rgba(245,240,232,0.5);
+  background: rgba(245,240,232,0.2);
+  border: 1.5px solid rgba(245,240,232,0.7);
+  backdrop-filter: blur(4px);
   color: var(--cream);
   border-radius: 2px;
   transition: all 0.3s ease;
@@ -207,6 +241,23 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   background: var(--cream);
   color: var(--black);
   border-color: var(--cream);
+}
+
+/* ========== HERO SCROLL INDICATOR ========== */
+.hero-scroll-indicator {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1px;
+  height: 48px;
+  background: linear-gradient(to bottom, #C9A84C, transparent);
+  animation: scrollPulse 2.5s ease-in-out infinite;
+  z-index: 5;
+}
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
 }
 .btn-ghost-dark {
   font-family: var(--ff-body);
@@ -258,6 +309,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .products {
   background: var(--cream);
   padding: 120px 48px;
+  overflow-y: auto;
 }
 .section-header {
   text-align: center;
@@ -278,15 +330,23 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   margin: 0 auto;
   line-height: 1.6;
 }
+/* Legacy grid — replaced by carousel */
+.products-grid {
+  display: none;
+}
+
+/* ========== PRODUCT GRID ========== */
 .products-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 32px;
-  max-width: 1280px;
+  gap: 28px;
+  max-width: 1200px;
   margin: 0 auto;
+  padding: 0 48px;
 }
 .product-card {
   transition: transform 0.3s ease;
+  cursor: pointer;
 }
 .product-card:hover {
   transform: scale(1.02);
@@ -294,15 +354,16 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .product-image {
   position: relative;
   border-radius: 16px;
-  aspect-ratio: 3/4;
+  height: 350px;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
   margin-bottom: 24px;
+  padding: 32px 24px 16px;
 }
 .product-image img {
-  height: 70%;
+  height: 80%;
   object-fit: contain;
   filter: drop-shadow(0 12px 32px rgba(0,0,0,0.2));
   transition: transform 0.4s ease;
@@ -341,18 +402,26 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 .product-link {
   font-family: var(--ff-body);
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
-  color: var(--gold);
+  color: #C9A84C;
   letter-spacing: 0.5px;
-  transition: color 0.3s ease;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 2px;
 }
-.product-link:hover { color: var(--orange); }
+.product-link:hover {
+  border-bottom-color: transparent;
+  letter-spacing: 0.08em;
+}
 
 /* ========== STORY ========== */
 .story {
   display: flex;
-  min-height: 600px;
+  min-height: 100vh;
+  flex-direction: row; /* override snap-section column direction */
+  align-items: stretch;
 }
 .story-image {
   flex: 0 0 58%;
@@ -364,10 +433,15 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   overflow: hidden;
 }
 .story-image img {
-  height: 75%;
+  position: absolute;
+  max-height: 55%;
   object-fit: contain;
-  opacity: 0.35;
+  opacity: 0;
   filter: drop-shadow(0 16px 48px rgba(0,0,0,0.3));
+  transition: opacity 1s ease-in-out;
+}
+.story-image img.active {
+  opacity: 0.4;
 }
 .story-image-caption {
   position: absolute;
@@ -467,16 +541,18 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   transform: translateX(50%);
 }
 .process-icon {
-  width: 64px;
-  height: 64px;
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
   border: 1px solid var(--gold);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 28px;
+  font-family: var(--ff-display);
+  font-size: 22px;
+  color: var(--gold);
   margin-bottom: 20px;
-  background: rgba(201,168,76,0.08);
+  background: var(--cream);
 }
 .process-step-title {
   font-family: var(--ff-display);
@@ -502,7 +578,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 /* ========== COCKTAILS ========== */
 .cocktails {
   background: var(--cream);
-  padding: 0 48px 120px;
+  padding: 60px 48px;
 }
 .cocktails .section-header h2 {
   font-style: italic;
@@ -510,9 +586,9 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .cocktails-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 32px;
+  gap: 24px;
   max-width: 1120px;
-  margin: 0 auto 48px;
+  margin: 0 auto;
 }
 .cocktail-card {
   transition: transform 0.3s ease;
@@ -521,7 +597,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .cocktail-image {
   position: relative;
   border-radius: 16px;
-  height: 300px;
+  height: 220px;
   overflow: hidden;
   margin-bottom: 20px;
 }
@@ -531,13 +607,43 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   border-radius: 16px;
 }
 .cocktail-image--paloma .cocktail-image-bg {
+  background-image: url('assets/cocktail-paloma.webp');
+  background-size: cover;
+  background-position: center;
+}
+.cocktail-image--paloma .cocktail-image-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
   background: linear-gradient(160deg, #D4742C 0%, #C41E2A 60%, #6B3420 100%);
+  opacity: 0.3;
+  border-radius: 16px;
 }
 .cocktail-image--garden .cocktail-image-bg {
+  background-image: url('assets/cocktail-old-fashioned.webp');
+  background-size: cover;
+  background-position: center;
+}
+.cocktail-image--garden .cocktail-image-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
   background: linear-gradient(160deg, #5A7A4A 0%, #3D5A2E 60%, #2A3D1E 100%);
+  opacity: 0.3;
+  border-radius: 16px;
 }
 .cocktail-image--fizz .cocktail-image-bg {
+  background-image: url('assets/cocktail-margarita.webp');
+  background-size: cover;
+  background-position: center;
+}
+.cocktail-image--fizz .cocktail-image-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
   background: linear-gradient(160deg, #C9A84C 0%, #96752E 60%, #6B5420 100%);
+  opacity: 0.3;
+  border-radius: 16px;
 }
 .cocktail-tag {
   position: absolute;
@@ -576,7 +682,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 .cocktail-name {
   font-family: var(--ff-display);
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 400;
   color: var(--black);
   margin-bottom: 8px;
@@ -591,12 +697,13 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .cocktail-link:hover { color: var(--orange); }
 .cocktails-footer {
   text-align: center;
+  margin-top: 32px;
 }
 
 /* ========== FIND US ========== */
 .find-us {
   background: var(--black);
-  padding: 100px 48px;
+  padding: 60px 48px 20px;
 }
 .find-us-inner {
   display: flex;
@@ -631,9 +738,10 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 .find-us-actions {
   display: flex;
-  flex-direction: column;
-  gap: 14px;
+  flex-direction: row;
+  gap: 16px;
   min-width: 260px;
+  flex-wrap: wrap;
 }
 .btn-gold {
   font-family: var(--ff-body);
@@ -664,7 +772,12 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   color: var(--gold);
   border-radius: 2px;
   transition: all 0.3s ease;
-  display: block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  cursor: pointer;
+  text-decoration: none;
 }
 .btn-ghost-gold:hover {
   background: var(--gold);
@@ -674,9 +787,9 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 /* ========== EMAIL CAPTURE ========== */
 .email-capture {
   background: var(--black);
-  padding: 80px 48px 100px;
+  padding: 40px 48px 20px;
   text-align: center;
-  border-top: 1px solid rgba(245,240,232,0.08);
+  border-top: none;
 }
 .email-capture h2 {
   font-family: var(--ff-display);
@@ -741,8 +854,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 /* ========== FOOTER ========== */
 .footer {
   background: var(--black);
-  padding: 64px 48px 32px;
-  border-top: 1px solid rgba(245,240,232,0.08);
+  padding: 40px 48px 32px;
+  border-top: none;
 }
 .footer-grid {
   display: grid;
@@ -818,10 +931,17 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   transition: color 0.3s ease;
 }
 .footer-legal a:hover { color: rgba(245,240,232,0.7); }
+.footer-responsible {
+  text-align: center;
+  font-family: var(--ff-body);
+  font-size: 13px;
+  color: rgba(245,240,232,0.4);
+  max-width: 1120px;
+  margin: 0 auto 20px;
+}
 
 /* ========== RESPONSIVE ========== */
 @media (max-width: 1024px) {
-  .products-grid { grid-template-columns: repeat(2, 1fr); }
   .story { flex-direction: column; }
   .story-image { flex: none; min-height: 400px; }
   .story-text { flex: none; padding: 56px 40px; }
@@ -832,6 +952,10 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 
 @media (max-width: 768px) {
+  /* Disable scroll snap on mobile */
+  html { scroll-snap-type: none; }
+  .snap-section { min-height: auto; scroll-snap-align: none; }
+
   .nav { padding: 16px 24px; }
   .nav-links { display: none; }
   .nav-cta { display: none; }
@@ -843,8 +967,9 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   .hero-buttons { flex-direction: column; align-items: center; }
 
   .products { padding: 80px 24px; }
-  .products-grid { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; }
   .section-header h2 { font-size: 36px; }
+
+  .products-grid { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; padding: 0; }
 
   .story-text { padding: 40px 24px; }
   .story-quote blockquote { font-size: 22px; }
@@ -854,13 +979,13 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   .process-steps { flex-direction: column; gap: 32px; }
   .process-step:not(:last-child)::after { display: none; }
 
-  .cocktails { padding: 0 24px 80px; }
+  .cocktails { padding: 40px 24px; }
   .cocktails-grid { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto 40px; }
 
-  .find-us { padding: 72px 24px; }
+  .find-us { padding: 40px 24px 16px; }
   .find-us-text h2 { font-size: 32px; }
 
-  .email-capture { padding: 64px 24px 80px; }
+  .email-capture { padding: 32px 24px 16px; }
   .email-capture h2 { font-size: 30px; }
   .email-form { flex-direction: column; }
   .email-form input { border-right: 1px solid rgba(245,240,232,0.2); border-bottom: none; border-radius: 2px 2px 0 0; }
@@ -903,16 +1028,16 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 </nav>
 
 <!-- Hero -->
-<section class="hero" id="hero">
+<section class="hero snap-section" id="hero">
   <div class="hero-content">
-    <div class="hero-overline">Tlacolula, Oaxaca &middot; Est. 2012</div>
     <h1 class="hero-title">Un homenaje al tiempo.</h1>
     <p class="hero-subtitle" data-en="Artisanal mezcal crafted with 200 years of tradition, a patented process, and the soul of Oaxaca in every sip." data-es="Mezcal artesanal elaborado con 200 a&#241;os de tradici&#243;n, un proceso patentado y el alma de Oaxaca en cada sorbo.">Artisanal mezcal crafted with 200 years of tradition, a patented process, and the soul of Oaxaca in every sip.</p>
     <div class="hero-buttons">
-      <a href="#products" class="btn-ghost" data-en="Explore Our Mezcal" data-es="Descubre Nuestro Mezcal">Explore Our Mezcal</a>
+      <a href="#products" class="btn-gold" data-en="Explore Our Mezcal" data-es="Descubre Nuestro Mezcal">Explore Our Mezcal</a>
       <a href="#find-us" class="btn-ghost" data-en="Find Near You" data-es="Encuentra Cerca de Ti">Find Near You</a>
     </div>
   </div>
+  <div class="hero-scroll-indicator"></div>
 </section>
 
 <!-- Awards Bar -->
@@ -942,92 +1067,78 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 </div>
 
 <!-- Products -->
-<section class="products" id="products">
+<section class="products snap-section" id="products">
   <div class="section-header reveal">
     <h2 data-en="Our Mezcal" data-es="Nuestro Mezcal">Our Mezcal</h2>
     <p data-en="Four expressions of Oaxacan tradition, each crafted with Eric's patented technique." data-es="Cuatro expresiones de la tradici&#243;n oaxaque&#241;a, cada una elaborada con la t&#233;cnica patentada de Eric.">Four expressions of Oaxacan tradition, each crafted with Eric's patented technique.</p>
   </div>
   <div class="products-grid">
     <!-- Joven -->
-    <div class="product-card reveal">
+    <div class="carousel-card product-card reveal" onclick="window.location.href='product-joven.html'">
       <div class="product-image product-image--joven">
         <img src="assets/joven.png" alt="Joven">
       </div>
       <div class="product-overline">Espadin &middot; 40% ABV</div>
       <div class="product-name">Joven</div>
       <p class="product-note" data-en="Bright honey and citrus, delicate smoke finish. 94pts Wine Enthusiast." data-es="Miel brillante y c&#237;tricos, delicado final ahumado. 94pts Wine Enthusiast.">Bright honey and citrus, delicate smoke finish. 94pts Wine Enthusiast.</p>
-      <a href="#" class="product-link" data-en="Discover &#8594;" data-es="Descubrir &#8594;">Discover &rarr;</a>
+      <a href="product-joven.html" class="product-link" data-en="Discover &#8594;" data-es="Descubrir &#8594;">Discover &rarr;</a>
     </div>
     <!-- Reposado -->
-    <div class="product-card reveal">
+    <div class="carousel-card product-card reveal" onclick="window.location.href='product-reposado.html'">
       <div class="product-image product-image--reposado">
         <img src="assets/reposado.png" alt="Reposado">
       </div>
       <div class="product-overline">Espadin &middot; 40% ABV</div>
       <div class="product-name">Reposado</div>
       <p class="product-note" data-en="Honeyed sweetness, cinnamon, vanilla. 3 months in French oak." data-es="Dulzura de miel, canela y vainilla. 3 meses en roble franc&#233;s.">Honeyed sweetness, cinnamon, vanilla. 3 months in French oak.</p>
-      <a href="#" class="product-link" data-en="Discover &#8594;" data-es="Descubrir &#8594;">Discover &rarr;</a>
+      <a href="product-reposado.html" class="product-link" data-en="Discover &#8594;" data-es="Descubrir &#8594;">Discover &rarr;</a>
     </div>
     <!-- Tobala -->
-    <div class="product-card reveal">
+    <div class="carousel-card product-card reveal" onclick="window.location.href='product-tobala.html'">
       <div class="product-image product-image--tobala">
         <img src="assets/tobala.png" alt="Tobala">
       </div>
       <div class="product-overline">Wild Agave &middot; 45% ABV</div>
       <div class="product-name">Tobal&aacute;</div>
       <p class="product-note" data-en="Cooked agave, baked pumpkin, mineral. One plant per bottle." data-es="Agave cocido, calabaza horneada, mineral. Una planta por botella.">Cooked agave, baked pumpkin, mineral. One plant per bottle.</p>
-      <a href="#" class="product-link" data-en="Discover &#8594;" data-es="Descubrir &#8594;">Discover &rarr;</a>
+      <a href="product-tobala.html" class="product-link" data-en="Discover &#8594;" data-es="Descubrir &#8594;">Discover &rarr;</a>
     </div>
     <!-- Anejo -->
-    <div class="product-card reveal">
+    <div class="carousel-card product-card reveal" onclick="window.location.href='product-anejo.html'">
       <div class="product-image product-image--anejo">
         <img src="assets/anejo.png" alt="Anejo">
       </div>
       <div class="product-overline">Espadin-Barril &middot; 45% ABV</div>
       <div class="product-name">A&ntilde;ejo</div>
       <p class="product-note" data-en="Full agave, chocolate, brown sugar. Aged 1 year." data-es="Agave intenso, chocolate, piloncillo. A&#241;ejado 1 a&#241;o en roble franc&#233;s.">Full agave, chocolate, brown sugar. Aged 1 year.</p>
-      <a href="#" class="product-link" data-en="Discover &#8594;" data-es="Descubrir &#8594;">Discover &rarr;</a>
+      <a href="product-anejo.html" class="product-link" data-en="Discover &#8594;" data-es="Descubrir &#8594;">Discover &rarr;</a>
     </div>
   </div>
 </section>
 
-<!-- Story -->
-<section class="story reveal" id="story">
-  <div class="story-image">
-    <img src="assets/anejo.png" alt="Sacrificio Anejo">
-    <div class="story-image-caption">Tlacolula, Valle de Oaxaca</div>
-  </div>
-  <div class="story-text">
-    <div class="story-quote">
-      <blockquote data-en="&#8220;In 2012, a wine family met a 4th-generation maestro mezcalero. Together, they created something extraordinary.&#8221;" data-es="&#8220;En 2012, una familia vinatera conoci&#243; a un maestro mezcalero de cuarta generaci&#243;n. Juntos, crearon algo extraordinario.&#8221;">&ldquo;In 2012, a wine family met a 4th-generation maestro mezcalero. Together, they created something extraordinary.&rdquo;</blockquote>
-      <cite data-en="&#8212; The Sacrificio Origin" data-es="&#8212; El Origen de Sacrificio">&mdash; The Sacrificio Origin</cite>
-    </div>
-    <a href="#" class="story-cta" data-en="Read Our Story &#8594;" data-es="Lee Nuestra Historia &#8594;">Read Our Story &rarr;</a>
-  </div>
-</section>
 
 <!-- Process -->
-<section class="process reveal" id="process">
+<section class="process reveal snap-section" id="process">
   <div class="process-overline" data-en="The Craft" data-es="El Oficio">The Craft</div>
   <h2 class="process-title" data-en="200 Years of Tradition" data-es="200 A&#241;os de Tradici&#243;n">200 Years of Tradition</h2>
   <div class="process-steps">
     <div class="process-step">
-      <div class="process-icon">&#127793;</div>
+      <div class="process-icon">1</div>
       <div class="process-step-title" data-en="Cultivation" data-es="Cultivo">Cultivation</div>
       <div class="process-step-desc" data-en="10 years to maturity" data-es="10 a&#241;os de crecimiento en las tierras altas de Oaxaca">10 years to maturity</div>
     </div>
     <div class="process-step">
-      <div class="process-icon">&#128293;</div>
+      <div class="process-icon">2</div>
       <div class="process-step-title" data-en="Roasting" data-es="Horneado">Roasting</div>
       <div class="process-step-desc" data-en="Mesquite &amp; pine" data-es="Horno de tierra con mezquite y ocote por 5 d&#237;as">Mesquite &amp; pine</div>
     </div>
     <div class="process-step">
-      <div class="process-icon">&#129388;</div>
+      <div class="process-icon">3</div>
       <div class="process-step-title" data-en="Fermentation" data-es="Fermentaci&#243;n">Fermentation</div>
       <div class="process-step-desc" data-en="Natural &amp; open-air" data-es="Fermentaci&#243;n natural al aire libre en tinas de piedra">Natural &amp; open-air</div>
     </div>
     <div class="process-step">
-      <div class="process-icon">&#129516;</div>
+      <div class="process-icon">4</div>
       <div class="process-step-title" data-en="Double Distillation" data-es="Doble Destilaci&#243;n">Double Distillation</div>
       <div class="process-step-desc" data-en="Copper pot stills" data-es="Alambiques de cobre para pureza y car&#225;cter">Copper pot stills</div>
     </div>
@@ -1036,7 +1147,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 </section>
 
 <!-- Cocktails -->
-<section class="cocktails reveal" id="cocktails">
+<section class="cocktails reveal snap-section" id="cocktails">
   <div class="section-header">
     <h2 data-en="Crafted to sip. Inspired to mix." data-es="Hecho para degustar. Inspirado para mezclar.">Crafted to sip. Inspired to mix.</h2>
   </div>
@@ -1082,11 +1193,12 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     </div>
   </div>
   <div class="cocktails-footer">
-    <a href="#" class="btn-ghost-dark" data-en="See All Recipes" data-es="Ver Todas Las Recetas">See All Recipes</a>
+    <a href="#" class="btn-gold" data-en="See All Recipes" data-es="Ver Todas Las Recetas">See All Recipes</a>
   </div>
 </section>
 
-<!-- Find Us -->
+<!-- Find Us + Email + Footer (single snap section) -->
+<div class="snap-section" style="justify-content: center;">
 <section class="find-us" id="find-us">
   <div class="find-us-inner reveal">
     <div class="find-us-text">
@@ -1096,8 +1208,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     </div>
     <div class="find-us-actions">
       <a href="#" class="btn-gold">Total Wine &amp; More</a>
-      <a href="#" class="btn-ghost-gold">Drizly</a>
-      <a href="#" class="btn-ghost-gold" data-en="Store Locator" data-es="Buscar Tienda">Store Locator</a>
+      <button class="btn-ghost-gold find-store-btn" data-testid="button-find-store" id="button-find-store" type="button" aria-haspopup="dialog" aria-expanded="false" data-state="closed" data-en="Find My Closest Store" data-es="Encuentra Tu Tienda M&aacute;s Cercana"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px;vertical-align:middle"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg>Find My Closest Store</button>
     </div>
   </div>
 </section>
@@ -1136,8 +1247,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
       <div class="footer-col-title" data-en="Find Us" data-es="Encu&#233;ntranos">Find Us</div>
       <ul>
         <li><a href="#">Total Wine &amp; More</a></li>
-        <li><a href="#">Drizly</a></li>
-        <li><a href="#" data-en="Store Locator" data-es="Buscar Tienda">Store Locator</a></li>
+        <li><a href="#" data-en="Find My Closest Store" data-es="Encuentra Tu Tienda">Find My Closest Store</a></li>
         <li><a href="#" data-en="On-Premise" data-es="Bares y Restaurantes">On-Premise</a></li>
       </ul>
     </div>
@@ -1152,6 +1262,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     </div>
   </div>
   <div class="footer-separator"></div>
+  <div class="footer-responsible" data-en="Please drink responsibly. Must be 21+." data-es="Bebe con responsabilidad. Debes ser mayor de 21 a&#241;os.">Please drink responsibly. Must be 21+.</div>
   <div class="footer-bottom">
     <div class="footer-copyright" data-en="&#169; 2026 Destileria Sacrificio S.A. de C.V. All rights reserved." data-es="&#169; 2026 Destileria Sacrificio S.A. de C.V. Todos los derechos reservados.">&copy; 2026 Destileria Sacrificio S.A. de C.V. All rights reserved.</div>
     <div class="footer-legal">
@@ -1161,23 +1272,27 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     </div>
   </div>
 </footer>
+</div><!-- end snap-section wrapper for find-us + email + footer -->
 
 <script>
+/* ========== JS-READY FLAG (for progressive reveal) ========== */
+document.documentElement.classList.add('js-ready');
+
 /* ========== NAV SCROLL ========== */
-const nav = document.getElementById('nav');
-window.addEventListener('scroll', () => {
+var nav = document.getElementById('nav');
+window.addEventListener('scroll', function() {
   nav.classList.toggle('scrolled', window.scrollY > 60);
 }, { passive: true });
 
 /* ========== SCROLL REVEAL ========== */
-const reveals = document.querySelectorAll('.reveal');
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach((entry) => {
+var reveals = document.querySelectorAll('.reveal');
+var observer = new IntersectionObserver(function(entries) {
+  entries.forEach(function(entry) {
     if (entry.isIntersecting) {
-      const parent = entry.target.closest('.products-grid');
+      var parent = entry.target.closest('.carousel-container');
       if (parent) {
-        const siblings = Array.from(parent.querySelectorAll('.reveal'));
-        const idx = siblings.indexOf(entry.target);
+        var siblings = Array.from(parent.querySelectorAll('.reveal'));
+        var idx = siblings.indexOf(entry.target);
         entry.target.style.transitionDelay = (idx * 0.12) + 's';
       }
       entry.target.classList.add('visible');
@@ -1185,18 +1300,18 @@ const observer = new IntersectionObserver((entries) => {
     }
   });
 }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
-reveals.forEach(el => observer.observe(el));
+reveals.forEach(function(el) { observer.observe(el); });
 
 /* ========== MOBILE TOGGLE ========== */
-const mobileToggle = document.getElementById('mobileToggle');
-mobileToggle.addEventListener('click', () => {
+var mobileToggle = document.getElementById('mobileToggle');
+mobileToggle.addEventListener('click', function() {
   mobileToggle.classList.toggle('active');
 });
 
 /* ========== SMOOTH SCROLL ========== */
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
   anchor.addEventListener('click', function(e) {
-    const target = document.querySelector(this.getAttribute('href'));
+    var target = document.querySelector(this.getAttribute('href'));
     if (target) {
       e.preventDefault();
       target.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -1206,10 +1321,10 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 
 /* ========== i18n LANGUAGE SWITCH ========== */
 function applyLang(lang) {
-  document.querySelectorAll('[data-en][data-es]').forEach(el => {
+  document.querySelectorAll('[data-en][data-es]').forEach(function(el) {
     el.textContent = el.dataset[lang];
   });
-  document.querySelectorAll('[data-en-placeholder][data-es-placeholder]').forEach(el => {
+  document.querySelectorAll('[data-en-placeholder][data-es-placeholder]').forEach(function(el) {
     el.placeholder = el.dataset[lang + 'Placeholder'];
   });
 }
@@ -1219,6 +1334,88 @@ window.addEventListener('message', function(e) {
     applyLang(e.data.lang);
   }
 });
+
+/* ========== STORY BOTTLE CAROUSEL — rotate every 2s ========== */
+(function() {
+  var bottles = document.querySelectorAll('.story-bottle');
+  if (bottles.length === 0) return;
+  var current = 0;
+  setInterval(function() {
+    bottles[current].classList.remove('active');
+    current = (current + 1) % bottles.length;
+    bottles[current].classList.add('active');
+  }, 2000);
+})();
+
+/* ========== PRODUCT HORIZONTAL CAROUSEL ========== */
+(function() {
+  var container = document.getElementById('productCarousel');
+  var dotsContainer = document.getElementById('carouselDots');
+  if (!container || !dotsContainer) return;
+
+  var cards = container.querySelectorAll('.carousel-card');
+  var dots = dotsContainer.querySelectorAll('.carousel-dot');
+  var totalPairs = dots.length; // 3 pairs for 4 cards
+  var currentPair = 0;
+  var autoTimer = null;
+  var gap = 24;
+
+  function getCardWidth() {
+    return cards[0].offsetWidth + gap;
+  }
+
+  function updateDots(pair) {
+    currentPair = pair;
+    dots.forEach(function(dot, i) {
+      dot.classList.toggle('active', i === pair);
+    });
+  }
+
+  function scrollToPair(pair) {
+    var cardWidth = getCardWidth();
+    container.scrollTo({ left: pair * cardWidth, behavior: 'smooth' });
+    updateDots(pair);
+  }
+
+  function startAuto() {
+    stopAuto();
+    autoTimer = setInterval(function() {
+      var next = (currentPair + 1) % totalPairs;
+      scrollToPair(next);
+    }, 3000);
+  }
+
+  function stopAuto() {
+    if (autoTimer) {
+      clearInterval(autoTimer);
+      autoTimer = null;
+    }
+  }
+
+  // Dot click handlers
+  dots.forEach(function(dot) {
+    dot.addEventListener('click', function() {
+      var pair = parseInt(this.dataset.pair, 10);
+      scrollToPair(pair);
+      startAuto(); // reset timer on click
+    });
+  });
+
+  // Scroll tracking — sync dots with manual swipe
+  container.addEventListener('scroll', function() {
+    var cardWidth = getCardWidth();
+    var pair = Math.round(container.scrollLeft / cardWidth);
+    pair = Math.max(0, Math.min(pair, totalPairs - 1));
+    updateDots(pair);
+  }, { passive: true });
+
+  // Pause on hover, resume on leave
+  container.addEventListener('mouseenter', stopAuto);
+  container.addEventListener('mouseleave', startAuto);
+
+  // Start auto-advance
+  startAuto();
+})();
 </script>
 </body>
 </html>
