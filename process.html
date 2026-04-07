@@ -13,8 +13,8 @@
 html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
 body {
   font-family: 'DM Sans', sans-serif;
-  color: #1A1A1A;
-  background: #F5F0E8;
+  color: #F5F0E8;
+  background: #0A0A0A;
   overflow-x: hidden;
 }
 img { max-width: 100%; display: block; }
@@ -29,7 +29,9 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   --orange: #D4742C;
   --red: #C41E2A;
   --navy: #2B3A67;
-  --muted: #6B6560;
+  --muted: rgba(245,240,232,0.6);
+  --dark-bg: #0A0A0A;
+  --dark-card: #161616;
   --ff-display: 'Playfair Display', serif;
   --ff-body: 'DM Sans', sans-serif;
   --ff-accent: 'Cormorant Garamond', serif;
@@ -58,13 +60,15 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   align-items: center;
   justify-content: space-between;
   padding: 14px 48px;
-  background: rgba(245,240,232,0.95);
+  background: rgba(10,10,10,0.95);
   backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(26,26,26,0.08);
+  border-bottom: 1px solid rgba(201,168,76,0.15);
 }
 .nav-logo img {
   height: 48px;
   width: auto;
+  filter: brightness(0) invert(1);
+  opacity: 0.7;
 }
 .nav-links {
   display: flex;
@@ -77,7 +81,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   font-weight: 500;
   letter-spacing: 1px;
   text-transform: uppercase;
-  color: var(--black);
+  color: rgba(245,240,232,0.5);
   transition: color 0.3s ease;
 }
 .nav-links a:hover { color: var(--gold); }
@@ -88,13 +92,14 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   font-weight: 600;
   letter-spacing: 1.5px;
   text-transform: uppercase;
-  color: var(--cream);
-  background: var(--gold);
+  color: var(--gold);
+  background: transparent;
+  border: 1.5px solid var(--gold);
   padding: 10px 24px;
   border-radius: 2px;
-  transition: background 0.3s ease;
+  transition: all 0.3s ease;
 }
-.nav-cta:hover { background: var(--orange); }
+.nav-cta:hover { background: var(--gold); color: var(--dark-bg); }
 .nav-mobile-toggle {
   display: none;
   flex-direction: column;
@@ -105,7 +110,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   display: block;
   width: 24px;
   height: 2px;
-  background: var(--black);
+  background: var(--cream);
   transition: all 0.3s ease;
 }
 
@@ -193,13 +198,13 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   font-family: var(--ff-display);
   font-size: 26px;
   color: var(--gold);
-  background: var(--cream);
+  background: var(--dark-bg);
 }
 .process-step-content h3 {
   font-family: var(--ff-display);
   font-size: 28px;
   font-weight: 400;
-  color: var(--black);
+  color: var(--gold);
   margin-bottom: 12px;
 }
 .process-step-content p {
@@ -242,6 +247,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .innovation-card {
   text-align: center;
   padding: 32px 20px;
+  background: var(--dark-card);
   border: 1px solid rgba(201,168,76,0.2);
   border-radius: 12px;
   transition: border-color 0.3s ease;
@@ -423,17 +429,16 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 
 <!-- Nav -->
 <nav class="nav" id="nav">
-  <a href="direction-a.html" class="nav-logo">
+  <a href="direction-b.html" class="nav-logo">
     <img src="assets/logo.svg" alt="Sacrificio">
   </a>
   <ul class="nav-links">
-    <li><a href="direction-a.html#story" data-en="Our Story" data-es="Nuestra Historia">Our Story</a></li>
-    <li><a href="direction-a.html#products" data-en="Products" data-es="Productos">Products</a></li>
-    <li><a href="direction-a.html#process" data-en="Process" data-es="Proceso">Process</a></li>
-    <li><a href="direction-a.html#cocktails" data-en="Cocktails" data-es="C&#243;cteles">Cocktails</a></li>
-    <li><a href="direction-a.html#find-us" data-en="Find Us" data-es="Encu&#233;ntranos">Find Us</a></li>
+    <li><a href="direction-b.html#products" data-en="Products" data-es="Productos">Products</a></li>
+    <li><a href="direction-b.html#process" data-en="Process" data-es="Proceso">Process</a></li>
+    <li><a href="direction-b.html#cocktails" data-en="Cocktails" data-es="C&#243;cteles">Cocktails</a></li>
+    <li><a href="direction-b.html#find-us" data-en="Find Us" data-es="Encu&#233;ntranos">Find Us</a></li>
   </ul>
-  <a href="#" class="nav-cta" data-en="Buy Now" data-es="Comprar">Buy Now</a>
+  <a href="https://www.totalwine.com/search/all?text=sacrificio+mezcal" class="nav-cta" data-en="Buy Now" data-es="Comprar">Buy Now</a>
   <div class="nav-mobile-toggle" id="mobileToggle" aria-label="Menu">
     <span></span><span></span><span></span>
   </div>
@@ -519,7 +524,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 
 <!-- Back CTA -->
 <section class="back-cta">
-  <a href="direction-a.html" data-en="&#8592; Back to Home" data-es="&#8592; Volver al Inicio">&larr; Back to Home</a>
+  <a href="direction-b.html" data-en="&#8592; Back to Home" data-es="&#8592; Volver al Inicio">&larr; Back to Home</a>
 </section>
 
 <!-- Footer -->
@@ -532,29 +537,21 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     <div class="footer-col">
       <div class="footer-col-title" data-en="Explore" data-es="Explorar">Explore</div>
       <ul>
-        <li><a href="direction-a.html#story" data-en="Our Story" data-es="Nuestra Historia">Our Story</a></li>
-        <li><a href="direction-a.html#products" data-en="Products" data-es="Productos">Products</a></li>
-        <li><a href="direction-a.html#process" data-en="Process" data-es="Proceso">Process</a></li>
-        <li><a href="direction-a.html#cocktails" data-en="Cocktails" data-es="C&#243;cteles">Cocktails</a></li>
-        <li><a href="#">Awards</a></li>
+        <li><a href="direction-b.html#products" data-en="Products" data-es="Productos">Products</a></li>
+        <li><a href="direction-b.html#process" data-en="Process" data-es="Proceso">Process</a></li>
+        <li><a href="direction-b.html#cocktails" data-en="Cocktails" data-es="C&#243;cteles">Cocktails</a></li>
       </ul>
     </div>
     <div class="footer-col">
       <div class="footer-col-title" data-en="Find Us" data-es="Encu&#233;ntranos">Find Us</div>
       <ul>
-        <li><a href="#">Total Wine &amp; More</a></li>
-        <li><a href="#">Drizly</a></li>
-        <li><a href="#" data-en="Store Locator" data-es="Buscar Tienda">Store Locator</a></li>
-        <li><a href="#" data-en="On-Premise" data-es="Bares y Restaurantes">On-Premise</a></li>
+        <li><a href="https://www.totalwine.com/search/all?text=sacrificio+mezcal">Total Wine &amp; More</a></li>
       </ul>
     </div>
     <div class="footer-col">
       <div class="footer-col-title" data-en="Connect" data-es="Conectar">Connect</div>
       <ul>
-        <li><a href="#">Instagram</a></li>
-        <li><a href="#">Pinterest</a></li>
-        <li><a href="#" data-en="Contact" data-es="Contacto">Contact</a></li>
-        <li><a href="#" data-en="Press" data-es="Prensa">Press</a></li>
+        <li><a href="https://www.instagram.com/mezcalsacrificio/">Instagram</a></li>
       </ul>
     </div>
   </div>

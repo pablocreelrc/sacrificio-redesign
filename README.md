@@ -2,6 +2,31 @@
 
 Website prototype for [mezcalsacrificio.com](https://mezcalsacrificio.com) — artisanal mezcal from Tlacolula, Oaxaca.
 
+## Handoff — TODO for Team
+
+### UX/UI Lead — Age Verification
+- Design and implement age gate modal before launch
+- Current site's age gate for reference: https://mezcalsacrificio.com
+- Must block scroll while modal is visible (`body overflow: hidden`)
+- Store verification in `localStorage('age-verified')`
+- Redirect underage users to https://responsibility.org
+- Placeholder comment in `direction-b.html` where the age gate should go
+
+### Tech Team — Store Locator
+- Connect the existing store locator component from mezcalsacrificio.com
+- Button is ready: `<button data-testid="button-find-store" id="button-find-store" aria-haspopup="dialog">`
+- Match the current site's dialog/modal behavior
+- The button already has the map pin SVG icon and correct aria attributes
+
+### Tech Team — Email Capture → Database + Mailchimp
+- Form is ready: `<form id="email-capture-form" data-integration="supabase+mailchimp">`
+- Input field: `<input id="email-input" name="email" type="email">`
+- Connect to:
+  1. **Supabase** table `subscribers` (or Google Sheets as fallback)
+  2. **Mailchimp** list via API for automated email campaigns
+- Show success message on 200 response
+- Current form has `onsubmit="event.preventDefault()"` — replace with API call
+
 ## Preview
 
 **Run locally:**

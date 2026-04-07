@@ -6,6 +6,7 @@
 <title>Mezcal Sacrificio — Dark Heritage</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" href="assets/hero-bg.webp" as="image" type="image/webp">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap" rel="stylesheet">
 <style>
 /* ========== RESET & BASE ========== */
@@ -303,7 +304,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   text-transform: uppercase;
   color: var(--gold);
   white-space: nowrap;
-  padding: 0 48px;
+  padding: 0 8px;
 }
 @keyframes marquee {
   0% { transform: translateX(0); }
@@ -362,6 +363,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 .product-card:hover {
   transform: scale(1.02);
+  border: 1px solid rgba(201,168,76,0.3);
+  border-radius: 8px;
 }
 .product-image {
   position: relative;
@@ -768,6 +771,9 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   font-weight: 400;
   color: var(--gold);
   margin-bottom: 8px;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
 }
 .cocktail-link {
   font-family: var(--ff-body);
@@ -1053,11 +1059,15 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   .hero-content { padding: 0 24px; }
   .hero-buttons { flex-direction: column; align-items: center; }
 
-  .products { padding: 80px 24px; }
+  .products { padding: 60px 16px; }
   .section-header h2 { font-size: 32px; }
   .section-header p { font-size: 14px; }
-
-  /* DO NOT change products grid — keep 4 columns */
+  .products-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; padding: 0 8px; }
+  .product-image { height: 180px; }
+  .product-image img { max-height: 140px; }
+  .product-name { font-size: 18px; }
+  .product-note { font-size: 12px; }
+  .product-overline { font-size: 9px; }
 
   .story-text { padding: 40px 24px; }
   .story-quote blockquote { font-size: 22px; }
@@ -1102,11 +1112,25 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 @media (max-width: 480px) {
   .hero-title { font-size: 34px; }
   .hero-subtitle { font-size: 14px; }
-  .footer-grid { grid-template-columns: 1fr; }
+  .hero-buttons { max-width: 280px; }
+  .hero-buttons .btn-gold,
+  .hero-buttons .btn-ghost,
+  .hero-buttons .btn-hero-solid { width: 100%; text-align: center; font-size: 12px; padding: 14px 24px; }
+  .footer-grid { grid-template-columns: 1fr; text-align: center; }
+  .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+  .cocktails-grid { grid-template-columns: 1fr; max-width: 320px; }
+  .email-form { flex-direction: column; }
+  .email-form input, .email-form button { width: 100%; }
+  .email-find-us { flex-direction: column !important; align-items: center; }
+  .nav-logo img { height: 36px; }
 }
 </style>
 </head>
 <body>
+
+<!-- TODO: Age Gate — UX/UI lead to design and implement before launch -->
+<!-- TODO: Store Locator — Tech team to connect existing component from mezcalsacrificio.com -->
+<!-- TODO: Email capture — Connect to Supabase/Google Sheets + Mailchimp integration -->
 
 <!-- Nav -->
 <nav class="nav" id="nav">
@@ -1114,13 +1138,12 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     <img src="assets/logo.svg" alt="Sacrificio">
   </a>
   <ul class="nav-links">
-    <li><a href="#story" data-en="Our Story" data-es="Nuestra Historia">Our Story</a></li>
     <li><a href="#products" data-en="Products" data-es="Productos">Products</a></li>
     <li><a href="#process" data-en="Process" data-es="Proceso">Process</a></li>
     <li><a href="#cocktails" data-en="Cocktails" data-es="C&#243;cteles">Cocktails</a></li>
     <li><a href="#find-us" data-en="Find Us" data-es="Encu&#233;ntranos">Find Us</a></li>
   </ul>
-  <a href="#" class="nav-cta" data-en="Buy Now" data-es="Comprar">Buy Now</a>
+  <a href="https://www.totalwine.com/search/all?text=sacrificio+mezcal" class="nav-cta" data-en="Buy Now" data-es="Comprar">Buy Now</a>
   <div class="nav-mobile-toggle" id="mobileToggle" aria-label="Menu">
     <span></span><span></span><span></span>
   </div>
@@ -1130,7 +1153,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 <section class="hero snap-section" id="hero">
   <div class="hero-content">
     <h1 class="hero-title">Un homenaje al tiempo.</h1>
-    <p class="hero-subtitle" data-en="Artisanal mezcal crafted with 200 years of tradition, a patented process, and the soul of Oaxaca in every sip." data-es="Mezcal artesanal elaborado con 200 a&#241;os de tradici&#243;n, un proceso patentado y el alma de Oaxaca en cada sorbo.">Artisanal mezcal crafted with 200 years of tradition, a patented process, and the soul of Oaxaca in every sip.</p>
+    <p class="hero-subtitle" data-en="200 years of tradition. A patented process. The soul of Oaxaca." data-es="200 a&#241;os de tradici&#243;n. Un proceso patentado. El alma de Oaxaca.">200 years of tradition. A patented process. The soul of Oaxaca.</p>
     <div class="hero-buttons">
       <a href="#products" class="btn-hero-solid" data-en="Explore Our Mezcal" data-es="Descubre Nuestro Mezcal">Explore Our Mezcal</a>
       <a href="#find-us" class="btn-ghost" data-en="Find Near You" data-es="Encuentra Cerca de Ti">Find Near You</a>
@@ -1175,17 +1198,17 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     <!-- Joven -->
     <div class="product-card reveal" onclick="window.location.href='product-joven.html'">
       <div class="product-image product-image--joven">
-        <img src="assets/joven.png" alt="Joven">
+        <img src="assets/joven.webp" alt="Joven">
       </div>
       <div class="product-overline">Espadin &middot; 40% ABV</div>
       <div class="product-name">Joven</div>
-      <p class="product-note" data-en="Bright honey and citrus, delicate smoke finish. 94pts Wine Enthusiast." data-es="Miel brillante y c&#237;tricos, delicado final ahumado. 94pts Wine Enthusiast.">Bright honey and citrus, delicate smoke finish. 94pts Wine Enthusiast.</p>
+      <p class="product-note" data-en="Bright honey and citrus, delicate smoke finish." data-es="Miel brillante y c&#237;tricos, delicado final ahumado.">Bright honey and citrus, delicate smoke finish.</p>
       <a href="product-joven.html" class="product-link" data-en="Discover &#8594;" data-es="Descubrir &#8594;">Discover &rarr;</a>
     </div>
     <!-- Reposado -->
     <div class="product-card reveal" onclick="window.location.href='product-reposado.html'">
       <div class="product-image product-image--reposado">
-        <img src="assets/reposado.png" alt="Reposado">
+        <img src="assets/reposado.webp" alt="Reposado">
       </div>
       <div class="product-overline">Espadin &middot; 40% ABV</div>
       <div class="product-name">Reposado</div>
@@ -1195,7 +1218,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     <!-- Tobala -->
     <div class="product-card reveal" onclick="window.location.href='product-tobala.html'">
       <div class="product-image product-image--tobala">
-        <img src="assets/tobala.png" alt="Tobala">
+        <img src="assets/tobala.webp" alt="Tobala">
       </div>
       <div class="product-overline">Wild Agave &middot; 45% ABV</div>
       <div class="product-name">Tobal&aacute;</div>
@@ -1205,7 +1228,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     <!-- Anejo -->
     <div class="product-card reveal" onclick="window.location.href='product-anejo.html'">
       <div class="product-image product-image--anejo">
-        <img src="assets/anejo.png" alt="Anejo">
+        <img src="assets/anejo.webp" alt="Anejo">
       </div>
       <div class="product-overline">Espadin-Barril &middot; 45% ABV</div>
       <div class="product-name">A&ntilde;ejo</div>
@@ -1305,7 +1328,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     </div>
   </div>
   <div class="cocktails-footer">
-    <a href="#" class="btn-gold" data-en="See All Recipes" data-es="Ver Todas Las Recetas">See All Recipes</a>
+    <a href="https://mezcalsacrificio.com/cocktails" class="btn-gold" data-en="See All Recipes" data-es="Ver Todas Las Recetas">See All Recipes</a>
   </div>
 </section>
 
@@ -1315,13 +1338,18 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   <div class="reveal">
     <h2 data-en="Join the Sacrificio Circle" data-es="&#218;nete al C&#237;rculo Sacrificio">Join the Sacrificio Circle</h2>
     <p class="subtitle" data-en="Be the first to know about new releases, cocktail recipes, and exclusive events from Oaxaca." data-es="S&#233; el primero en conocer nuevos lanzamientos, recetas de c&#243;cteles y eventos exclusivos desde Oaxaca.">Be the first to know about new releases, cocktail recipes, and exclusive events from Oaxaca.</p>
-    <form class="email-form" onsubmit="event.preventDefault()">
-      <input type="email" placeholder="Your email address" data-en-placeholder="Your email address" data-es-placeholder="Tu correo electr&#243;nico" required>
-      <button type="submit" data-en="Subscribe" data-es="Suscribirse">Subscribe</button>
+    <!-- INTEGRATION: Email capture → Supabase/Google Sheets + Mailchimp
+         Tech team: replace onsubmit with API call to:
+         1. POST email to Supabase table 'subscribers' or Google Sheets
+         2. Add to Mailchimp list via API
+         3. Show success message on 200 response -->
+    <form class="email-form" id="email-capture-form" data-integration="supabase+mailchimp" onsubmit="event.preventDefault()">
+      <input type="email" id="email-input" name="email" placeholder="Your email address" data-en-placeholder="Your email address" data-es-placeholder="Tu correo electr&#243;nico" required>
+      <button type="submit" id="email-submit" data-en="Subscribe" data-es="Suscribirse">Subscribe</button>
     </form>
     <p class="email-disclaimer" data-en="By subscribing, you confirm you are 21+ and agree to our Privacy Policy. We never share your information." data-es="Al suscribirte, confirmas que eres mayor de 21 a&#241;os y aceptas nuestra Pol&#237;tica de Privacidad. Nunca compartimos tu informaci&#243;n.">By subscribing, you confirm you are 21+ and agree to our Privacy Policy. We never share your information.</p>
     <div class="email-find-us" style="display:flex;gap:16px;justify-content:center;margin-top:32px;flex-wrap:wrap;">
-      <a href="#" class="btn-gold">Total Wine &amp; More</a>
+      <a href="https://www.totalwine.com/search/all?text=sacrificio+mezcal" class="btn-gold">Total Wine &amp; More</a>
       <button class="btn-ghost-gold find-store-btn" data-testid="button-find-store" id="button-find-store" type="button" aria-haspopup="dialog" aria-expanded="false" data-state="closed" data-en="Find My Closest Store" data-es="Encuentra Tu Tienda M&aacute;s Cercana"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px;vertical-align:middle"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg>Find My Closest Store</button>
     </div>
   </div>
@@ -1337,11 +1365,9 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     <div class="footer-col">
       <div class="footer-col-title" data-en="Explore" data-es="Explorar">Explore</div>
       <ul>
-        <li><a href="#story" data-en="Our Story" data-es="Nuestra Historia">Our Story</a></li>
         <li><a href="#products" data-en="Products" data-es="Productos">Products</a></li>
         <li><a href="#process" data-en="Process" data-es="Proceso">Process</a></li>
         <li><a href="#cocktails" data-en="Cocktails" data-es="C&#243;cteles">Cocktails</a></li>
-        <li><a href="#">Awards</a></li>
       </ul>
     </div>
     <div class="footer-col">
@@ -1494,6 +1520,12 @@ window.addEventListener('message', function(e) {
   if (e.data && e.data.type === 'setLang') {
     applyLang(e.data.lang);
   }
+});
+
+/* ========== EMAIL FORM SUCCESS ========== */
+document.querySelector('.email-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  this.innerHTML = '<p style="color:#C9A84C;font-size:18px;font-family:Playfair Display,serif;">Thank you! You\'re in the circle.</p>';
 });
 
 // Story bottle carousel — rotate every 2s

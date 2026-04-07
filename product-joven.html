@@ -13,8 +13,8 @@
 html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
 body {
   font-family: 'DM Sans', sans-serif;
-  color: #1A1A1A;
-  background: #F5F0E8;
+  color: #F5F0E8;
+  background: #0A0A0A;
   overflow-x: hidden;
 }
 img { max-width: 100%; display: block; }
@@ -29,7 +29,9 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   --orange: #D4742C;
   --red: #C41E2A;
   --navy: #2B3A67;
-  --muted: #6B6560;
+  --muted: rgba(245,240,232,0.6);
+  --dark-bg: #0A0A0A;
+  --dark-card: #161616;
   --sku-color: #C41E2A;
   --ff-display: 'Playfair Display', serif;
   --ff-body: 'DM Sans', sans-serif;
@@ -59,13 +61,15 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   align-items: center;
   justify-content: space-between;
   padding: 14px 48px;
-  background: rgba(245,240,232,0.95);
+  background: rgba(10,10,10,0.95);
   backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(26,26,26,0.08);
+  border-bottom: 1px solid rgba(201,168,76,0.15);
 }
 .nav-logo img {
   height: 48px;
   width: auto;
+  filter: brightness(0) invert(1);
+  opacity: 0.7;
 }
 .nav-links {
   display: flex;
@@ -78,7 +82,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   font-weight: 500;
   letter-spacing: 1px;
   text-transform: uppercase;
-  color: var(--black);
+  color: rgba(245,240,232,0.5);
   transition: color 0.3s ease;
 }
 .nav-links a:hover { color: var(--gold); }
@@ -89,13 +93,14 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   font-weight: 600;
   letter-spacing: 1.5px;
   text-transform: uppercase;
-  color: var(--cream);
-  background: var(--gold);
+  color: var(--gold);
+  background: transparent;
+  border: 1.5px solid var(--gold);
   padding: 10px 24px;
   border-radius: 2px;
-  transition: background 0.3s ease;
+  transition: all 0.3s ease;
 }
-.nav-cta:hover { background: var(--orange); }
+.nav-cta:hover { background: var(--gold); color: var(--dark-bg); }
 .nav-mobile-toggle {
   display: none;
   flex-direction: column;
@@ -106,7 +111,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   display: block;
   width: 24px;
   height: 2px;
-  background: var(--black);
+  background: var(--cream);
   transition: all 0.3s ease;
 }
 
@@ -162,7 +167,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 
 /* ========== PRODUCT DETAILS ========== */
 .product-details {
-  background: var(--cream);
+  background: var(--dark-bg);
   padding: 80px 48px;
 }
 .product-details-inner {
@@ -187,7 +192,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   font-family: var(--ff-display);
   font-size: 48px;
   font-weight: 400;
-  color: var(--black);
+  color: var(--gold);
   margin-bottom: 12px;
 }
 .product-info-specs {
@@ -203,7 +208,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   font-family: var(--ff-display);
   font-size: 20px;
   font-weight: 600;
-  color: var(--black);
+  color: var(--gold);
   margin-bottom: 8px;
   margin-top: 24px;
 }
@@ -224,7 +229,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   font-family: var(--ff-accent);
   font-size: 18px;
   font-style: italic;
-  color: var(--black);
+  color: var(--cream);
   margin-bottom: 4px;
 }
 .product-info-review-source {
@@ -292,18 +297,18 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   font-weight: 600;
   letter-spacing: 1.5px;
   text-transform: uppercase;
-  color: var(--black);
+  color: var(--gold);
   background: transparent;
-  border: 1.5px solid var(--black);
+  border: 1.5px solid var(--gold);
   padding: 14px 32px;
   border-radius: 2px;
   transition: all 0.3s ease;
 }
-.btn-outline:hover { background: var(--black); color: var(--cream); }
+.btn-outline:hover { background: var(--gold); color: var(--dark-bg); }
 
 /* ========== FLAVOR PROFILE ========== */
 .flavor-profile {
-  background: #EDE8DF;
+  background: #111111;
   padding: 64px 48px;
   text-align: center;
 }
@@ -311,7 +316,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   font-family: var(--ff-display);
   font-size: 32px;
   font-weight: 400;
-  color: var(--black);
+  color: var(--gold);
   margin-bottom: 32px;
 }
 .flavor-pills {
@@ -328,23 +333,23 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   font-weight: 500;
   letter-spacing: 1px;
   text-transform: uppercase;
-  color: var(--sku-color);
-  background: rgba(196,30,42,0.08);
-  border: 1px solid rgba(196,30,42,0.2);
+  color: var(--gold);
+  background: rgba(201,168,76,0.1);
+  border: 1px solid rgba(201,168,76,0.3);
   padding: 10px 24px;
   border-radius: 100px;
 }
 
 /* ========== SUGGESTED COCKTAILS ========== */
 .suggested-cocktails {
-  background: var(--cream);
+  background: var(--dark-bg);
   padding: 64px 48px;
 }
 .suggested-cocktails h3 {
   font-family: var(--ff-display);
   font-size: 32px;
   font-weight: 400;
-  color: var(--black);
+  color: var(--gold);
   text-align: center;
   margin-bottom: 40px;
 }
@@ -356,7 +361,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   margin: 0 auto;
 }
 .cocktail-suggestion {
-  background: #fff;
+  background: var(--dark-card);
+  border: 1px solid rgba(201,168,76,0.15);
   border-radius: 12px;
   padding: 32px;
   transition: transform 0.3s ease;
@@ -366,7 +372,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   font-family: var(--ff-display);
   font-size: 22px;
   font-weight: 400;
-  color: var(--black);
+  color: var(--cream);
   margin-bottom: 8px;
 }
 .cocktail-suggestion-desc {
@@ -523,17 +529,16 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 
 <!-- Nav -->
 <nav class="nav" id="nav">
-  <a href="direction-a.html" class="nav-logo">
+  <a href="direction-b.html" class="nav-logo">
     <img src="assets/logo.svg" alt="Sacrificio">
   </a>
   <ul class="nav-links">
-    <li><a href="direction-a.html#story" data-en="Our Story" data-es="Nuestra Historia">Our Story</a></li>
-    <li><a href="direction-a.html#products" data-en="Products" data-es="Productos">Products</a></li>
-    <li><a href="direction-a.html#process" data-en="Process" data-es="Proceso">Process</a></li>
-    <li><a href="direction-a.html#cocktails" data-en="Cocktails" data-es="C&#243;cteles">Cocktails</a></li>
-    <li><a href="direction-a.html#find-us" data-en="Find Us" data-es="Encu&#233;ntranos">Find Us</a></li>
+    <li><a href="direction-b.html#products" data-en="Products" data-es="Productos">Products</a></li>
+    <li><a href="direction-b.html#process" data-en="Process" data-es="Proceso">Process</a></li>
+    <li><a href="direction-b.html#cocktails" data-en="Cocktails" data-es="C&#243;cteles">Cocktails</a></li>
+    <li><a href="direction-b.html#find-us" data-en="Find Us" data-es="Encu&#233;ntranos">Find Us</a></li>
   </ul>
-  <a href="#" class="nav-cta" data-en="Buy Now" data-es="Comprar">Buy Now</a>
+  <a href="https://www.totalwine.com/search/all?text=sacrificio+mezcal" class="nav-cta" data-en="Buy Now" data-es="Comprar">Buy Now</a>
   <div class="nav-mobile-toggle" id="mobileToggle" aria-label="Menu">
     <span></span><span></span><span></span>
   </div>
@@ -544,7 +549,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 <section class="product-details">
   <div class="product-details-inner">
     <div class="product-details-image reveal">
-      <img src="assets/joven.png" alt="Sacrificio Joven">
+      <img src="assets/joven.webp" alt="Sacrificio Joven">
     </div>
     <div class="product-info reveal">
       <h2 class="product-info-name">Joven</h2>
@@ -574,7 +579,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
       </div>
 
       <div class="product-cta-group">
-        <a href="#" class="btn-gold" data-en="Buy at Total Wine" data-es="Comprar en Total Wine">Buy at Total Wine</a>
+        <a href="https://www.totalwine.com/search/all?text=sacrificio+mezcal" class="btn-gold" data-en="Buy at Total Wine" data-es="Comprar en Total Wine">Buy at Total Wine</a>
         <a href="#" class="btn-outline" data-en="Find Near You" data-es="Encuentra Cerca de Ti">Find Near You</a>
       </div>
     </div>
@@ -589,12 +594,12 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     <div class="cocktail-suggestion">
       <div class="cocktail-suggestion-name">Smoky Passion Paloma</div>
       <p class="cocktail-suggestion-desc" data-en="A vibrant twist on the classic Paloma, combining Joven's bright citrus notes with passion fruit and grapefruit soda for a refreshing, smoky sipper." data-es="Una vibrante versi&oacute;n del cl&aacute;sico Paloma, combinando las notas c&iacute;tricas brillantes del Joven con maracuy&aacute; y soda de toronja para un trago refrescante y ahumado.">A vibrant twist on the classic Paloma, combining Joven's bright citrus notes with passion fruit and grapefruit soda for a refreshing, smoky sipper.</p>
-      <a href="direction-a.html#cocktails" class="cocktail-suggestion-link" data-en="View Recipe &rarr;" data-es="Ver Receta &rarr;">View Recipe &rarr;</a>
+      <a href="direction-b.html#cocktails" class="cocktail-suggestion-link" data-en="View Recipe &rarr;" data-es="Ver Receta &rarr;">View Recipe &rarr;</a>
     </div>
     <div class="cocktail-suggestion">
       <div class="cocktail-suggestion-name">Mezcal Margarita</div>
       <p class="cocktail-suggestion-desc" data-en="The timeless margarita elevated with Joven's honey-forward profile. Fresh lime, agave nectar, and a salted rim let the mezcal's character shine." data-es="La cl&aacute;sica margarita elevada con el perfil de miel del Joven. Lima fresca, n&eacute;ctar de agave y un borde de sal dejan que el car&aacute;cter del mezcal brille.">The timeless margarita elevated with Joven's honey-forward profile. Fresh lime, agave nectar, and a salted rim let the mezcal's character shine.</p>
-      <a href="direction-a.html#cocktails" class="cocktail-suggestion-link" data-en="View Recipe &rarr;" data-es="Ver Receta &rarr;">View Recipe &rarr;</a>
+      <a href="direction-b.html#cocktails" class="cocktail-suggestion-link" data-en="View Recipe &rarr;" data-es="Ver Receta &rarr;">View Recipe &rarr;</a>
     </div>
   </div>
 </section>
@@ -609,29 +614,21 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     <div class="footer-col">
       <div class="footer-col-title" data-en="Explore" data-es="Explorar">Explore</div>
       <ul>
-        <li><a href="direction-a.html#story" data-en="Our Story" data-es="Nuestra Historia">Our Story</a></li>
-        <li><a href="direction-a.html#products" data-en="Products" data-es="Productos">Products</a></li>
-        <li><a href="direction-a.html#process" data-en="Process" data-es="Proceso">Process</a></li>
-        <li><a href="direction-a.html#cocktails" data-en="Cocktails" data-es="C&#243;cteles">Cocktails</a></li>
-        <li><a href="#">Awards</a></li>
+        <li><a href="direction-b.html#products" data-en="Products" data-es="Productos">Products</a></li>
+        <li><a href="direction-b.html#process" data-en="Process" data-es="Proceso">Process</a></li>
+        <li><a href="direction-b.html#cocktails" data-en="Cocktails" data-es="C&#243;cteles">Cocktails</a></li>
       </ul>
     </div>
     <div class="footer-col">
       <div class="footer-col-title" data-en="Find Us" data-es="Encu&#233;ntranos">Find Us</div>
       <ul>
-        <li><a href="#">Total Wine &amp; More</a></li>
-        <li><a href="#">Drizly</a></li>
-        <li><a href="#" data-en="Store Locator" data-es="Buscar Tienda">Store Locator</a></li>
-        <li><a href="#" data-en="On-Premise" data-es="Bares y Restaurantes">On-Premise</a></li>
+        <li><a href="https://www.totalwine.com/search/all?text=sacrificio+mezcal">Total Wine &amp; More</a></li>
       </ul>
     </div>
     <div class="footer-col">
       <div class="footer-col-title" data-en="Connect" data-es="Conectar">Connect</div>
       <ul>
-        <li><a href="#">Instagram</a></li>
-        <li><a href="#">Pinterest</a></li>
-        <li><a href="#" data-en="Contact" data-es="Contacto">Contact</a></li>
-        <li><a href="#" data-en="Press" data-es="Prensa">Press</a></li>
+        <li><a href="https://www.instagram.com/mezcalsacrificio/">Instagram</a></li>
       </ul>
     </div>
   </div>
