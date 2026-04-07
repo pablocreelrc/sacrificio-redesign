@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Process — Mezcal Sacrificio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap" rel="stylesheet">
+<style>
+/* ========== RESET & BASE ========== */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  color: #1A1A1A;
+  background: #F5F0E8;
+  overflow-x: hidden;
+}
+img { max-width: 100%; display: block; }
+a { text-decoration: none; color: inherit; }
+button { cursor: pointer; border: none; background: none; font-family: inherit; }
+
+/* ========== VARIABLES ========== */
+:root {
+  --cream: #F5F0E8;
+  --black: #1A1A1A;
+  --gold: #C9A84C;
+  --orange: #D4742C;
+  --red: #C41E2A;
+  --navy: #2B3A67;
+  --muted: #6B6560;
+  --ff-display: 'Playfair Display', serif;
+  --ff-body: 'DM Sans', sans-serif;
+  --ff-accent: 'Cormorant Garamond', serif;
+}
+
+/* ========== SCROLL REVEAL ========== */
+.reveal { opacity: 1; transform: translateY(0); }
+.js-ready .reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.js-ready .reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ========== NAV ========== */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 48px;
+  background: rgba(245,240,232,0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(26,26,26,0.08);
+}
+.nav-logo img {
+  height: 48px;
+  width: auto;
+}
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 36px;
+}
+.nav-links a {
+  font-family: var(--ff-body);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--black);
+  transition: color 0.3s ease;
+}
+.nav-links a:hover { color: var(--gold); }
+.nav-cta {
+  display: inline-block;
+  font-family: var(--ff-body);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--cream);
+  background: var(--gold);
+  padding: 10px 24px;
+  border-radius: 2px;
+  transition: background 0.3s ease;
+}
+.nav-cta:hover { background: var(--orange); }
+.nav-mobile-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+}
+.nav-mobile-toggle span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--black);
+  transition: all 0.3s ease;
+}
+
+/* ========== HERO BANNER ========== */
+.process-hero {
+  position: relative;
+  height: 50vh;
+  min-height: 360px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: url('assets/process-sowing.webp') center/cover no-repeat;
+  margin-top: 76px;
+}
+.process-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.6) 100%);
+  pointer-events: none;
+}
+.process-hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 700px;
+  padding: 0 24px;
+}
+.process-hero-title {
+  font-family: var(--ff-display);
+  font-size: 56px;
+  font-weight: 400;
+  color: var(--cream);
+  margin-bottom: 16px;
+  text-shadow: 0 2px 16px rgba(0,0,0,0.4);
+}
+.process-hero-subtitle {
+  font-family: var(--ff-body);
+  font-size: 18px;
+  font-weight: 400;
+  color: rgba(245,240,232,0.8);
+  line-height: 1.6;
+}
+
+/* ========== INTRO ========== */
+.process-intro {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 80px 48px 60px;
+  text-align: center;
+}
+.process-intro p {
+  font-family: var(--ff-accent);
+  font-size: 22px;
+  font-style: italic;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+/* ========== STEPS ========== */
+.process-steps-section {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 48px 80px;
+}
+.process-step-detail {
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+  margin-bottom: 64px;
+}
+.process-step-detail:last-child {
+  margin-bottom: 0;
+}
+.process-step-number {
+  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 1px solid var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--ff-display);
+  font-size: 26px;
+  color: var(--gold);
+  background: var(--cream);
+}
+.process-step-content h3 {
+  font-family: var(--ff-display);
+  font-size: 28px;
+  font-weight: 400;
+  color: var(--black);
+  margin-bottom: 12px;
+}
+.process-step-content p {
+  font-family: var(--ff-body);
+  font-size: 16px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+/* ========== INNOVATION ========== */
+.innovation-section {
+  background: var(--black);
+  padding: 80px 48px;
+}
+.innovation-header {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 60px;
+}
+.innovation-header h2 {
+  font-family: var(--ff-display);
+  font-size: 40px;
+  font-weight: 400;
+  color: var(--cream);
+  margin-bottom: 16px;
+}
+.innovation-header p {
+  font-family: var(--ff-body);
+  font-size: 17px;
+  color: rgba(245,240,232,0.6);
+  line-height: 1.6;
+}
+.innovation-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.innovation-card {
+  text-align: center;
+  padding: 32px 20px;
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 12px;
+  transition: border-color 0.3s ease;
+}
+.innovation-card:hover {
+  border-color: rgba(201,168,76,0.5);
+}
+.innovation-card-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(201,168,76,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  font-size: 20px;
+}
+.innovation-card h4 {
+  font-family: var(--ff-display);
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--gold);
+  margin-bottom: 8px;
+}
+.innovation-card p {
+  font-family: var(--ff-body);
+  font-size: 14px;
+  color: rgba(245,240,232,0.5);
+  line-height: 1.5;
+}
+
+/* ========== BACK CTA ========== */
+.back-cta {
+  text-align: center;
+  padding: 60px 48px;
+}
+.back-cta a {
+  font-family: var(--ff-body);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--gold);
+  letter-spacing: 0.5px;
+  transition: color 0.3s ease;
+}
+.back-cta a:hover {
+  color: var(--orange);
+}
+
+/* ========== FOOTER ========== */
+.footer {
+  background: var(--black);
+  padding: 64px 48px 32px;
+  border-top: 1px solid rgba(201,168,76,0.3);
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  gap: 48px;
+  max-width: 1120px;
+  margin: 0 auto 48px;
+}
+.footer-brand-name {
+  font-family: var(--ff-display);
+  font-size: 24px;
+  font-weight: 400;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--cream);
+  margin-bottom: 12px;
+}
+.footer-brand-tagline {
+  font-family: var(--ff-accent);
+  font-size: 16px;
+  font-style: italic;
+  color: rgba(245,240,232,0.5);
+  line-height: 1.5;
+}
+.footer-col-title {
+  font-family: var(--ff-body);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 20px;
+}
+.footer-col ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.footer-col ul a {
+  font-family: var(--ff-body);
+  font-size: 14px;
+  color: rgba(245,240,232,0.6);
+  transition: color 0.3s ease;
+}
+.footer-col ul a:hover { color: var(--cream); }
+.footer-separator {
+  height: 1px;
+  background: rgba(245,240,232,0.08);
+  max-width: 1120px;
+  margin: 0 auto 24px;
+}
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1120px;
+  margin: 0 auto;
+}
+.footer-copyright {
+  font-family: var(--ff-body);
+  font-size: 13px;
+  color: rgba(245,240,232,0.35);
+}
+.footer-legal {
+  display: flex;
+  gap: 24px;
+}
+.footer-legal a {
+  font-family: var(--ff-body);
+  font-size: 13px;
+  color: rgba(245,240,232,0.35);
+  transition: color 0.3s ease;
+}
+.footer-legal a:hover { color: rgba(245,240,232,0.7); }
+.footer-responsible {
+  text-align: center;
+  font-family: var(--ff-body);
+  font-size: 13px;
+  color: rgba(245,240,232,0.4);
+  max-width: 1120px;
+  margin: 0 auto 20px;
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 1024px) {
+  .innovation-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+  .nav { padding: 14px 24px; }
+  .nav-links { display: none; }
+  .nav-cta { display: none; }
+  .nav-mobile-toggle { display: flex; }
+
+  .process-hero { height: 40vh; min-height: 280px; }
+  .process-hero-title { font-size: 36px; }
+  .process-hero-subtitle { font-size: 15px; }
+
+  .process-intro { padding: 48px 24px 40px; }
+  .process-intro p { font-size: 18px; }
+
+  .process-steps-section { padding: 0 24px 48px; }
+  .process-step-detail { flex-direction: column; gap: 16px; align-items: center; text-align: center; }
+
+  .innovation-section { padding: 48px 24px; }
+  .innovation-header h2 { font-size: 30px; }
+  .innovation-grid { grid-template-columns: 1fr; max-width: 360px; margin: 0 auto; }
+
+  .back-cta { padding: 40px 24px; }
+
+  .footer { padding: 48px 24px 24px; }
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+  .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+  .footer-legal { gap: 16px; }
+}
+
+@media (max-width: 480px) {
+  .footer-grid { grid-template-columns: 1fr; }
+  .innovation-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav class="nav" id="nav">
+  <a href="direction-a.html" class="nav-logo">
+    <img src="assets/logo.svg" alt="Sacrificio">
+  </a>
+  <ul class="nav-links">
+    <li><a href="direction-a.html#story" data-en="Our Story" data-es="Nuestra Historia">Our Story</a></li>
+    <li><a href="direction-a.html#products" data-en="Products" data-es="Productos">Products</a></li>
+    <li><a href="direction-a.html#process" data-en="Process" data-es="Proceso">Process</a></li>
+    <li><a href="direction-a.html#cocktails" data-en="Cocktails" data-es="C&#243;cteles">Cocktails</a></li>
+    <li><a href="direction-a.html#find-us" data-en="Find Us" data-es="Encu&#233;ntranos">Find Us</a></li>
+  </ul>
+  <a href="#" class="nav-cta" data-en="Buy Now" data-es="Comprar">Buy Now</a>
+  <div class="nav-mobile-toggle" id="mobileToggle" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- Hero Banner -->
+<section class="process-hero">
+  <div class="process-hero-content">
+    <h1 class="process-hero-title" data-en="Our Process" data-es="Nuestro Proceso">Our Process</h1>
+    <p class="process-hero-subtitle" data-en="Discover the ancient art of mezcal production, where time-honored traditions meet innovative sustainable practices." data-es="Descubre el antiguo arte de la producci&#243;n de mezcal, donde las tradiciones ancestrales se encuentran con pr&#225;cticas sustentables e innovadoras.">Discover the ancient art of mezcal production, where time-honored traditions meet innovative sustainable practices.</p>
+  </div>
+</section>
+
+<!-- Intro -->
+<section class="process-intro reveal">
+  <p data-en="Every bottle tells the story of time-honored traditions and innovative techniques passed down through generations of master mezcaleros." data-es="Cada botella cuenta la historia de tradiciones ancestrales y t&#233;cnicas innovadoras transmitidas a trav&#233;s de generaciones de maestros mezcaleros.">Every bottle tells the story of time-honored traditions and innovative techniques passed down through generations of master mezcaleros.</p>
+</section>
+
+<!-- Detailed Steps -->
+<section class="process-steps-section">
+  <div class="process-step-detail reveal">
+    <div class="process-step-number">1</div>
+    <div class="process-step-content">
+      <h3 data-en="Sowing &amp; Harvesting" data-es="Siembra y Cosecha">Sowing &amp; Harvesting</h3>
+      <p data-en="We only harvest mature agaves. Sowing agaves in our own lands at Oaxaca's Valley. Our espadin agaves grow for 8-10 years and up to 20 years for some wild varieties. Plants are handpicked once they have reached maturity without the use of pesticides or chemicals." data-es="Solo cosechamos agaves maduros. Sembramos agaves en nuestras propias tierras en el Valle de Oaxaca. Nuestros agaves espad&#237;n crecen durante 8-10 a&#241;os y hasta 20 a&#241;os para algunas variedades silvestres. Las plantas se cosechan a mano una vez que alcanzan la madurez sin el uso de pesticidas ni qu&#237;micos.">We only harvest mature agaves. Sowing agaves in our own lands at Oaxaca's Valley. Our espadin agaves grow for 8-10 years and up to 20 years for some wild varieties. Plants are handpicked once they have reached maturity without the use of pesticides or chemicals.</p>
+    </div>
+  </div>
+
+  <div class="process-step-detail reveal">
+    <div class="process-step-number">2</div>
+    <div class="process-step-content">
+      <h3 data-en="Roasting" data-es="Horneado">Roasting</h3>
+      <p data-en="Agave hearts (pi&#241;as) are slowly roasted in our patented energy-efficient earthen oven using mesquite and ocote pine for 3-5 days. Eric's oven design reduces cooking time and wood consumption while creating a more environmentally friendly process." data-es="Los corazones de agave (pi&#241;as) se hornean lentamente en nuestro horno de tierra patentado y energ&#233;ticamente eficiente usando mezquite y ocote durante 3-5 d&#237;as. El dise&#241;o del horno de Eric reduce el tiempo de cocci&#243;n y el consumo de le&#241;a, creando un proceso m&#225;s amigable con el medio ambiente.">Agave hearts (pi&ntilde;as) are slowly roasted in our patented energy-efficient earthen oven using mesquite and ocote pine for 3-5 days. Eric's oven design reduces cooking time and wood consumption while creating a more environmentally friendly process.</p>
+    </div>
+  </div>
+
+  <div class="process-step-detail reveal">
+    <div class="process-step-number">3</div>
+    <div class="process-step-content">
+      <h3 data-en="Fermentation" data-es="Fermentaci&#243;n">Fermentation</h3>
+      <p data-en="Natural open-air fermentation in Sabino (Kapok) tree barrels with mountain spring water. The exotic wood and mountain water are essential to the unique flavor profile. No additives &mdash; all flavors derive from agave and the natural process." data-es="Fermentaci&#243;n natural al aire libre en barriles de madera de Sabino (Ceiba) con agua de manantial de monta&#241;a. La madera ex&#243;tica y el agua de monta&#241;a son esenciales para el perfil de sabor &#250;nico. Sin aditivos &mdash; todos los sabores provienen del agave y el proceso natural.">Natural open-air fermentation in Sabino (Kapok) tree barrels with mountain spring water. The exotic wood and mountain water are essential to the unique flavor profile. No additives &mdash; all flavors derive from agave and the natural process.</p>
+    </div>
+  </div>
+
+  <div class="process-step-detail reveal">
+    <div class="process-step-number">4</div>
+    <div class="process-step-content">
+      <h3 data-en="Double Distillation" data-es="Doble Destilaci&#243;n">Double Distillation</h3>
+      <p data-en="First distillation in steel to concentrate, then refined in copper pot stills under Eric's supervision. His patented technique softens the smoke to let the natural agave notes dominate." data-es="Primera destilaci&#243;n en acero para concentrar, luego refinada en alambiques de cobre bajo la supervisi&#243;n de Eric. Su t&#233;cnica patentada suaviza el humo para que las notas naturales del agave dominen.">First distillation in steel to concentrate, then refined in copper pot stills under Eric's supervision. His patented technique softens the smoke to let the natural agave notes dominate.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Innovation Section -->
+<section class="innovation-section reveal">
+  <div class="innovation-header">
+    <h2 data-en="Innovation Meets Tradition" data-es="Innovaci&#243;n y Tradici&#243;n">Innovation Meets Tradition</h2>
+    <p data-en="Our patented innovations preserve ancient wisdom while creating a more sustainable future." data-es="Nuestras innovaciones patentadas preservan la sabidur&#237;a ancestral mientras crean un futuro m&#225;s sustentable.">Our patented innovations preserve ancient wisdom while creating a more sustainable future.</p>
+  </div>
+  <div class="innovation-grid">
+    <div class="innovation-card">
+      <div class="innovation-card-icon">&#x1F525;</div>
+      <h4 data-en="Patented Oven Design" data-es="Dise&#241;o de Horno Patentado">Patented Oven Design</h4>
+      <p data-en="Reduces cooking time and wood consumption" data-es="Reduce el tiempo de cocci&#243;n y el consumo de le&#241;a">Reduces cooking time and wood consumption</p>
+    </div>
+    <div class="innovation-card">
+      <div class="innovation-card-icon">&#x2699;</div>
+      <h4 data-en="Electric Tahona" data-es="Tahona El&#233;ctrica">Electric Tahona</h4>
+      <p data-en="Patented by Eric, animal cruelty-free modernization" data-es="Patentada por Eric, modernizaci&#243;n libre de crueldad animal">Patented by Eric, animal cruelty-free modernization</p>
+    </div>
+    <div class="innovation-card">
+      <div class="innovation-card-icon">&#x267B;</div>
+      <h4 data-en="Biodigester" data-es="Biodigestor">Biodigester</h4>
+      <p data-en="First distillery to install biodigesters" data-es="Primera destiler&#237;a en instalar biodigestores">First distillery to install biodigesters</p>
+    </div>
+    <div class="innovation-card">
+      <div class="innovation-card-icon">&#x1F331;</div>
+      <h4 data-en="100% Waste Circularity" data-es="100% Circularidad de Residuos">100% Waste Circularity</h4>
+      <p data-en="All production waste is reused" data-es="Todos los residuos de producci&#243;n se reutilizan">All production waste is reused</p>
+    </div>
+  </div>
+</section>
+
+<!-- Back CTA -->
+<section class="back-cta">
+  <a href="direction-a.html" data-en="&#8592; Back to Home" data-es="&#8592; Volver al Inicio">&larr; Back to Home</a>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="footer-brand-name">Sacrificio</div>
+      <p class="footer-brand-tagline" data-en="Artisanal mezcal from Tlacolula, Oaxaca. Crafted with patience, served with pride." data-es="Mezcal artesanal de Tlacolula, Oaxaca. Elaborado con paciencia, servido con orgullo.">Artisanal mezcal from Tlacolula, Oaxaca. Crafted with patience, served with pride.</p>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title" data-en="Explore" data-es="Explorar">Explore</div>
+      <ul>
+        <li><a href="direction-a.html#story" data-en="Our Story" data-es="Nuestra Historia">Our Story</a></li>
+        <li><a href="direction-a.html#products" data-en="Products" data-es="Productos">Products</a></li>
+        <li><a href="direction-a.html#process" data-en="Process" data-es="Proceso">Process</a></li>
+        <li><a href="direction-a.html#cocktails" data-en="Cocktails" data-es="C&#243;cteles">Cocktails</a></li>
+        <li><a href="#">Awards</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title" data-en="Find Us" data-es="Encu&#233;ntranos">Find Us</div>
+      <ul>
+        <li><a href="#">Total Wine &amp; More</a></li>
+        <li><a href="#">Drizly</a></li>
+        <li><a href="#" data-en="Store Locator" data-es="Buscar Tienda">Store Locator</a></li>
+        <li><a href="#" data-en="On-Premise" data-es="Bares y Restaurantes">On-Premise</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title" data-en="Connect" data-es="Conectar">Connect</div>
+      <ul>
+        <li><a href="#">Instagram</a></li>
+        <li><a href="#">Pinterest</a></li>
+        <li><a href="#" data-en="Contact" data-es="Contacto">Contact</a></li>
+        <li><a href="#" data-en="Press" data-es="Prensa">Press</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-separator"></div>
+  <div class="footer-responsible" data-en="Please drink responsibly. Must be 21+." data-es="Bebe con responsabilidad. Debes ser mayor de 21 a&ntilde;os.">Please drink responsibly. Must be 21+.</div>
+  <div class="footer-bottom">
+    <div class="footer-copyright" data-en="&copy; 2026 Destileria Sacrificio S.A. de C.V. All rights reserved." data-es="&copy; 2026 Destileria Sacrificio S.A. de C.V. Todos los derechos reservados.">&copy; 2026 Destileria Sacrificio S.A. de C.V. All rights reserved.</div>
+    <div class="footer-legal">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Use</a>
+      <a href="#">Accessibility</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ========== JS-READY FLAG ========== */
+document.documentElement.classList.add('js-ready');
+
+/* ========== SCROLL REVEAL ========== */
+var reveals = document.querySelectorAll('.reveal');
+var observer = new IntersectionObserver(function(entries) {
+  entries.forEach(function(entry) {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+reveals.forEach(function(el) { observer.observe(el); });
+
+/* ========== MOBILE TOGGLE ========== */
+var mobileToggle = document.getElementById('mobileToggle');
+mobileToggle.addEventListener('click', function() {
+  mobileToggle.classList.toggle('active');
+});
+
+/* ========== i18n LANGUAGE SWITCH ========== */
+function applyLang(lang) {
+  document.querySelectorAll('[data-en][data-es]').forEach(function(el) {
+    el.textContent = el.dataset[lang];
+  });
+}
+
+window.addEventListener('message', function(e) {
+  if (e.data && e.data.type === 'setLang') {
+    applyLang(e.data.lang);
+  }
+});
+</script>
+</body>
+</html>

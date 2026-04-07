@@ -307,9 +307,20 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 
 /* ========== PRODUCTS ========== */
 .products {
-  background: var(--cream);
+  background: url('assets/hero-bg.webp') center/cover no-repeat;
+  position: relative;
   padding: 120px 48px;
   overflow-y: auto;
+}
+.products::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(245,240,232,0.9);
+}
+.products > * {
+  position: relative;
+  z-index: 1;
 }
 .section-header {
   text-align: center;
@@ -345,6 +356,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   padding: 0 48px;
 }
 .product-card {
+  text-align: center;
   transition: transform 0.3s ease;
   cursor: pointer;
 }
@@ -495,9 +507,20 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 
 /* ========== PROCESS ========== */
 .process {
-  background: var(--cream);
+  background: url('assets/hero-bg.webp') center/cover no-repeat;
+  position: relative;
   padding: 120px 48px;
   text-align: center;
+}
+.process::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(245,240,232,0.88);
+}
+.process > * {
+  position: relative;
+  z-index: 1;
 }
 .process-overline {
   font-family: var(--ff-body);
@@ -528,6 +551,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   display: flex;
   flex-direction: column;
   align-items: center;
+  text-align: center;
   position: relative;
 }
 .process-step:not(:last-child)::after {
@@ -577,34 +601,54 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 
 /* ========== COCKTAILS ========== */
 .cocktails {
-  background: var(--cream);
+  background: url('assets/hero-bg.webp') center/cover no-repeat;
+  position: relative;
   padding: 60px 48px;
+}
+.cocktails::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(245,240,232,0.9);
+}
+.cocktails > * {
+  position: relative;
+  z-index: 1;
 }
 .cocktails .section-header h2 {
   font-style: italic;
 }
 .cocktails-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-  max-width: 1120px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 28px;
+  max-width: 1200px;
   margin: 0 auto;
+  padding: 0 24px;
 }
 .cocktail-card {
-  transition: transform 0.3s ease;
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 2px 16px rgba(26,26,26,0.06);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-.cocktail-card:hover { transform: translateY(-4px); }
+.cocktail-card:hover { transform: translateY(-4px); box-shadow: 0 8px 32px rgba(26,26,26,0.12); }
 .cocktail-image {
   position: relative;
-  border-radius: 16px;
-  height: 220px;
+  height: 260px;
   overflow: hidden;
-  margin-bottom: 20px;
 }
+.cocktail-card .cocktail-name,
+.cocktail-card .cocktail-link {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.cocktail-card .cocktail-name { padding-top: 16px; }
+.cocktail-card .cocktail-link { padding-bottom: 20px; display: inline-block; }
 .cocktail-image-bg {
   position: absolute;
   inset: 0;
-  border-radius: 16px;
 }
 .cocktail-image--paloma .cocktail-image-bg {
   background-image: url('assets/cocktail-paloma.webp');
@@ -642,6 +686,19 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   position: absolute;
   inset: 0;
   background: linear-gradient(160deg, #C9A84C 0%, #96752E 60%, #6B5420 100%);
+  opacity: 0.3;
+  border-radius: 16px;
+}
+.cocktail-image--sour .cocktail-image-bg {
+  background-image: url('assets/cocktail-smoked-sour.webp');
+  background-size: cover;
+  background-position: center;
+}
+.cocktail-image--sour .cocktail-image-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, #6B4C3B 0%, #4A3228 60%, #2A1A12 100%);
   opacity: 0.3;
   border-radius: 16px;
 }
@@ -697,7 +754,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .cocktail-link:hover { color: var(--orange); }
 .cocktails-footer {
   text-align: center;
-  margin-top: 32px;
+  margin-top: 28px;
+  padding-bottom: 0;
 }
 
 /* ========== FIND US ========== */
@@ -949,6 +1007,9 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   .find-us-text p { margin-left: auto; margin-right: auto; }
   .find-us-actions { min-width: 300px; }
   .hero-title { font-size: 56px; }
+  .hero-subtitle { font-size: 16px; }
+  .nav-links { display: none; }
+  .nav-mobile-toggle { display: flex; }
 }
 
 @media (max-width: 768px) {
@@ -963,27 +1024,32 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 
   .hero { padding: 0 20px; }
   .hero-title { font-size: 42px; }
-  .hero-subtitle { font-size: 16px; }
+  .hero-subtitle { font-size: 15px; max-width: 90%; }
+  .hero-content { padding: 0 24px; }
   .hero-buttons { flex-direction: column; align-items: center; }
 
   .products { padding: 80px 24px; }
-  .section-header h2 { font-size: 36px; }
+  .section-header h2 { font-size: 32px; }
+  .section-header p { font-size: 14px; }
 
-  .products-grid { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; padding: 0; }
+  /* DO NOT change products grid — keep 4 columns */
 
   .story-text { padding: 40px 24px; }
   .story-quote blockquote { font-size: 22px; }
 
   .process { padding: 80px 24px; }
-  .process-title { font-size: 36px; }
-  .process-steps { flex-direction: column; gap: 32px; }
+  .process-title { font-size: 32px; }
+  .process-steps { flex-direction: column; gap: 32px; align-items: center; }
   .process-step:not(:last-child)::after { display: none; }
 
   .cocktails { padding: 40px 24px; }
-  .cocktails-grid { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto 40px; }
+  .cocktails-grid { grid-template-columns: repeat(2, 1fr); max-width: 600px; margin: 0 auto; }
 
   .find-us { padding: 40px 24px 16px; }
   .find-us-text h2 { font-size: 32px; }
+
+  .awards-track { font-size: 10px; gap: 24px; }
+  .awards-bar { padding: 12px 0; }
 
   .email-capture { padding: 32px 24px 16px; }
   .email-capture h2 { font-size: 30px; }
@@ -991,15 +1057,26 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   .email-form input { border-right: 1px solid rgba(245,240,232,0.2); border-bottom: none; border-radius: 2px 2px 0 0; }
   .email-form button { border-radius: 0 0 2px 2px; }
 
-  .footer { padding: 48px 24px 24px; }
-  .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+  .footer { padding: 40px 24px 24px; }
+  .footer-grid { grid-template-columns: 1fr; gap: 32px; text-align: center; }
   .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
-  .footer-legal { gap: 16px; }
+  .footer-legal { gap: 16px; justify-content: center; }
 
-  .direction-label { top: auto; bottom: 16px; right: 16px; font-size: 10px; }
+  .direction-label { top: auto; bottom: 12px; right: 12px; font-size: 9px; padding: 5px 10px; }
+}
+
+@media (max-width: 600px) {
+  .hero-buttons { flex-direction: column; align-items: center; width: 100%; max-width: 300px; margin: 0 auto; }
+  .hero-buttons .btn-gold,
+  .hero-buttons .btn-ghost { width: 100%; text-align: center; }
+  .email-form { flex-direction: column; max-width: 300px; margin: 0 auto 16px; }
+  .email-form input, .email-form button { width: 100%; }
+  .find-us-inner { flex-direction: column; align-items: center; }
 }
 
 @media (max-width: 480px) {
+  .hero-title { font-size: 34px; }
+  .hero-subtitle { font-size: 14px; }
   .footer-grid { grid-template-columns: 1fr; }
 }
 </style>
@@ -1143,7 +1220,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
       <div class="process-step-desc" data-en="Copper pot stills" data-es="Alambiques de cobre para pureza y car&#225;cter">Copper pot stills</div>
     </div>
   </div>
-  <a href="#" class="process-cta" data-en="Explore the Process &#8594;" data-es="Explora el Proceso &#8594;">Explore the Process &rarr;</a>
+  <a href="process.html" class="process-cta" data-en="Explore the Process &#8594;" data-es="Explora el Proceso &#8594;">Explore the Process &rarr;</a>
 </section>
 
 <!-- Cocktails -->
@@ -1152,7 +1229,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     <h2 data-en="Crafted to sip. Inspired to mix." data-es="Hecho para degustar. Inspirado para mezclar.">Crafted to sip. Inspired to mix.</h2>
   </div>
   <div class="cocktails-grid">
-    <!-- Smoky Passion Paloma -->
+    <!-- Sacrificio Paloma -->
     <div class="cocktail-card">
       <div class="cocktail-image cocktail-image--paloma">
         <div class="cocktail-image-bg"></div>
@@ -1162,33 +1239,46 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
           <span class="cocktail-pill" data-en="Easy" data-es="F&#225;cil">Easy</span>
         </div>
       </div>
-      <div class="cocktail-name">Smoky Passion Paloma</div>
+      <div class="cocktail-name">Sacrificio Paloma</div>
       <a href="#" class="cocktail-link" data-en="View Recipe &#8594;" data-es="Ver Receta &#8594;">View Recipe &rarr;</a>
     </div>
-    <!-- Oaxacan Herb Garden -->
+    <!-- Oaxacan Old Fashioned -->
     <div class="cocktail-card">
       <div class="cocktail-image cocktail-image--garden">
         <div class="cocktail-image-bg"></div>
         <div class="cocktail-tag" data-en="Made with Reposado" data-es="Hecho con Reposado">Made with Reposado</div>
         <div class="cocktail-meta">
+          <span class="cocktail-pill">5 min</span>
+          <span class="cocktail-pill" data-en="Easy" data-es="F&#225;cil">Easy</span>
+        </div>
+      </div>
+      <div class="cocktail-name">Oaxacan Old Fashioned</div>
+      <a href="#" class="cocktail-link" data-en="View Recipe &#8594;" data-es="Ver Receta &#8594;">View Recipe &rarr;</a>
+    </div>
+    <!-- Sacrificio Margarita -->
+    <div class="cocktail-card">
+      <div class="cocktail-image cocktail-image--fizz">
+        <div class="cocktail-image-bg"></div>
+        <div class="cocktail-tag" data-en="Made with Joven" data-es="Hecho con Joven">Made with Joven</div>
+        <div class="cocktail-meta">
+          <span class="cocktail-pill">5 min</span>
+          <span class="cocktail-pill" data-en="Easy" data-es="F&#225;cil">Easy</span>
+        </div>
+      </div>
+      <div class="cocktail-name">Sacrificio Margarita</div>
+      <a href="#" class="cocktail-link" data-en="View Recipe &#8594;" data-es="Ver Receta &#8594;">View Recipe &rarr;</a>
+    </div>
+    <!-- Smoked Sour -->
+    <div class="cocktail-card">
+      <div class="cocktail-image cocktail-image--sour">
+        <div class="cocktail-image-bg"></div>
+        <div class="cocktail-tag" data-en="Made with Tobal&#225;" data-es="Hecho con Tobal&#225;">Made with Tobal&aacute;</div>
+        <div class="cocktail-meta">
           <span class="cocktail-pill">8 min</span>
           <span class="cocktail-pill" data-en="Medium" data-es="Medio">Medium</span>
         </div>
       </div>
-      <div class="cocktail-name">Oaxacan Herb Garden</div>
-      <a href="#" class="cocktail-link" data-en="View Recipe &#8594;" data-es="Ver Receta &#8594;">View Recipe &rarr;</a>
-    </div>
-    <!-- Cirial Spice Fizz -->
-    <div class="cocktail-card">
-      <div class="cocktail-image cocktail-image--fizz">
-        <div class="cocktail-image-bg"></div>
-        <div class="cocktail-tag" data-en="Made with Tobal&#225;" data-es="Hecho con Tobal&#225;">Made with Tobal&aacute;</div>
-        <div class="cocktail-meta">
-          <span class="cocktail-pill">6 min</span>
-          <span class="cocktail-pill" data-en="Easy" data-es="F&#225;cil">Easy</span>
-        </div>
-      </div>
-      <div class="cocktail-name">Cirial Spice Fizz</div>
+      <div class="cocktail-name">Smoked Sour</div>
       <a href="#" class="cocktail-link" data-en="View Recipe &#8594;" data-es="Ver Receta &#8594;">View Recipe &rarr;</a>
     </div>
   </div>
@@ -1197,24 +1287,9 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   </div>
 </section>
 
-<!-- Find Us + Email + Footer (single snap section) -->
+<!-- Email + Find Us + Footer (single snap section) -->
 <div class="snap-section" style="justify-content: center;">
-<section class="find-us" id="find-us">
-  <div class="find-us-inner reveal">
-    <div class="find-us-text">
-      <h2 data-en="Find Sacrificio Near You" data-es="Encuentra Sacrificio Cerca de Ti">Find Sacrificio Near You</h2>
-      <p data-en="Available at Total Wine &amp; More locations in Texas and Florida, plus select retailers nationwide." data-es="Disponible en tiendas Total Wine &amp; More en Texas y Florida, adem&#225;s de minoristas selectos en todo el pa&#237;s.">Available at Total Wine &amp; More locations in Texas and Florida, plus select retailers nationwide.</p>
-      <div class="find-us-proof" data-en="Available in 254 stores across 29 states" data-es="Disponible en 254 tiendas en 29 estados">Available in 254 stores across 29 states</div>
-    </div>
-    <div class="find-us-actions">
-      <a href="#" class="btn-gold">Total Wine &amp; More</a>
-      <button class="btn-ghost-gold find-store-btn" data-testid="button-find-store" id="button-find-store" type="button" aria-haspopup="dialog" aria-expanded="false" data-state="closed" data-en="Find My Closest Store" data-es="Encuentra Tu Tienda M&aacute;s Cercana"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px;vertical-align:middle"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg>Find My Closest Store</button>
-    </div>
-  </div>
-</section>
-
-<!-- Email Capture -->
-<section class="email-capture">
+<section class="email-capture" id="find-us">
   <div class="reveal">
     <h2 data-en="Join the Sacrificio Circle" data-es="&#218;nete al C&#237;rculo Sacrificio">Join the Sacrificio Circle</h2>
     <p class="subtitle" data-en="Be the first to know about new releases, cocktail recipes, and exclusive events from Oaxaca." data-es="S&#233; el primero en conocer nuevos lanzamientos, recetas de c&#243;cteles y eventos exclusivos desde Oaxaca.">Be the first to know about new releases, cocktail recipes, and exclusive events from Oaxaca.</p>
@@ -1223,6 +1298,10 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
       <button type="submit" data-en="Subscribe" data-es="Suscribirse">Subscribe</button>
     </form>
     <p class="email-disclaimer" data-en="By subscribing, you confirm you are 21+ and agree to our Privacy Policy. We never share your information." data-es="Al suscribirte, confirmas que eres mayor de 21 a&#241;os y aceptas nuestra Pol&#237;tica de Privacidad. Nunca compartimos tu informaci&#243;n.">By subscribing, you confirm you are 21+ and agree to our Privacy Policy. We never share your information.</p>
+    <div class="email-find-us" style="display:flex;gap:16px;justify-content:center;margin-top:32px;flex-wrap:wrap;">
+      <a href="#" class="btn-gold">Total Wine &amp; More</a>
+      <button class="btn-ghost-gold find-store-btn" data-testid="button-find-store" id="button-find-store" type="button" aria-haspopup="dialog" aria-expanded="false" data-state="closed" data-en="Find My Closest Store" data-es="Encuentra Tu Tienda M&aacute;s Cercana"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px;vertical-align:middle"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg>Find My Closest Store</button>
+    </div>
   </div>
 </section>
 
